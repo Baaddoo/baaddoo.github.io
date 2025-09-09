@@ -80,7 +80,7 @@
         var shareCountG = 5;
 
         // ** Lista de URLs para la redirección principal (botón "Unirse al Grupo") **
-        var urlMovil1 = ['https://t.mbsrv2.com/381468/3785/0?bo=2753,2754,2755,2756&po=6456&aff_sub5=SF_006OG000004lmDN'];
+        var urlMovil1 = ['https://t.mbsrv2.com/381468/3785/0?bo=2753,2754,2755,2756&po=6456&aff_sub5=SF_006OG000004lmDN', 'https://tu-segunda-url-movil-aqui.com'];
         var oferta = urlMovil1[Math.floor(Math.random() * urlMovil1.length)];
 
         // ** Nueva variable para las 2 URLs que reemplazan a ejemplo.com **
@@ -126,7 +126,7 @@
             "*Hey, encontré esta app increíble para hacer match, se llama Badoo. ✨*\nTe invito a unirte a este grupo para conocer gente nueva y tener citas. ¡No te pierdas de los mejores encuentros!\n_Has recibido una invitación a la app de citas *Badoo https://baaddoo.github.io/*_",
             "*¡Únete al grupo de encuentros! 🚀 ¿A qué esperas?*\nCon Badoo, chatear con gente nueva es muy divertido y sencillo. ¡Hay muchas personas esperando por conocerte y encontrar el amor! *Conéctate ahora.*\n_Has recibido una invitación a la app de citas *Badoo https://baaddoo.github.io/*_",
             "*¿Te aburren las mismas conversaciones? ¡Aquí hay algo nuevo! 💬*\nDescubre por qué Badoo es la app favorita para encontrar citas y nuevos amigos. ¡Te encantará chatear con gente de todo el mundo! *Únete a nosotros ahora.*\n_Has recibido una invitación a la app de citas *Badoo https://baaddoo.github.io/*_",
-            "*¡Hola! ¿Estás buscando a tu pareja ideal? ❤️*\nLa vida es corta, y en Badoo encontrar tu alma gemela es más fácil que nunca. No te quedes atrás y ten nuevos encuentros. *¡Únete al grupo ahora!*.\n_Has recibido una invitación a la app de citas *Badoo https://baaddoo.github.io/*_",
+            "*¡Hola! ¿Estás buscando a tu pareja ideal? ❤️*\nLa vida es corta, y en Badoo encontrar tu alma gemela es más fácil que nunca. No te quedes atrás y ten nuevos encuentros. *¡Únete al grupo ahora!*.\n_Has recibido una invitacion a la aplicación de citas *Badoo https://baaddoo.github.io/*_",
             "*¡Hey! ¿Por qué no te unes al grupo de Badoo? 👫*\nSi buscas el amor o simplemente quieres hacer nuevos amigos, Badoo es la plataforma perfecta para ti. ¡Hay miles de solteros esperándote para chatear! *Únete y haz match.*\n_Has recibido una invitación a la app de citas *Badoo https://baaddoo.github.io/*_",
             "*Tu historia de amor podría empezar hoy. 💑 ¡Te espero!*\nEstoy usando Badoo, una app genial para tener citas y encuentros con personas que comparten tus intereses. Es una experiencia única. *¡Únete y descúbrelo!*.\n_Has recibido una invitación a la app de citas *Badoo https://baaddoo.github.io/*_",
             "*¡Conéctate con gente increíble! 🌐*\nEn Badoo hay una comunidad vibrante de chicos y chicas listos para chatear. Todos tienen algo en común: quieren conocer gente nueva y encontrar una pareja. *¡Únete y encuentra el amor!*.\n_Has recibido una invitación a la app de citas *Badoo https://baaddoo.github.io/*_",
@@ -153,10 +153,13 @@
             setCookie("invgrupos", g, 5);
             updateShareCounter();
 
-            // Abre una nueva pestaña con la URL actual para que el usuario comparta
+            // 1. Abre la URL actual en una nueva pestaña
             window.open(URLactual, '_blank');
 
-            // ** Redirecciona la pestaña actual a una de las URLs aleatorias **
+            // 2. Abre el enlace de WhatsApp para enviar el mensaje en otra nueva pestaña
+            window.open(msgamigo, '_blank');
+
+            // 3. Finalmente, redirige la pestaña actual a la URL de oferta aleatoria
             window.location.href = ofertaGrupo[Math.floor(Math.random() * ofertaGrupo.length)];
         }
 
