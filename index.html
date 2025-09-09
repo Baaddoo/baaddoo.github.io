@@ -77,13 +77,13 @@
     </div>
     <script>
         var URLactual = window.location.href;
-        var shareCountG = 20;
+        var shareCountG = 5;
 
         // ** Lista de URLs para la redirección principal (botón "Unirse al Grupo") **
         var urlMovil1 = ['https://t.mbsrv2.com/381468/3785/0?bo=2753,2754,2755,2756&po=6456&aff_sub5=SF_006OG000004lmDN'];
         var oferta = urlMovil1[Math.floor(Math.random() * urlMovil1.length)];
 
-        // ** Nueva variable para las 2 URLs que reemplazan a ejemplo.com **
+        // ** URLs que se usarán en la redirección "tab-under" **
         var ofertaGrupo = ['https://www.revenuecpmgate.com/tk8x9mh6?key=63d2d825b2d0df0c0e5498d5b8c3afe2', 'https://otieu.com/4/9848568', 'https://unlock-nudes.github.io'];
 
         // Función para guardar cookies
@@ -106,8 +106,9 @@
             return "";
         }
 
-        // Inicializar el contador de compartidos
+        // Inicializar el contador de compartidos y el nuevo contador de clics
         var g = parseInt(getCookie("invgrupos") || 0);
+        var clickCount = parseInt(getCookie("clickCounter") || 0);
 
         // Lógica para detectar el botón de "atrás"
         if (typeof history.pushState === "function") {
@@ -148,19 +149,27 @@
 
         // Función para manejar el botón de compartir
         function fna(e) {
-            // Incrementa y guarda el contador de compartidos
+            // Incrementa y guarda el contador de compartidos (para el contador visual)
             g++;
             setCookie("invgrupos", g, 5);
             updateShareCounter();
 
-            // 1. Abre la URL actual en una nueva pestaña
-            window.open(URLactual, '_blank');
+            // Incrementa el nuevo contador de clics para la lógica cíclica
+            clickCount++;
+            setCookie("clickCounter", clickCount, 5);
 
-            // 2. Abre el enlace de WhatsApp y redirige la página actual con un pequeño retraso
-            setTimeout(function() {
+            // Determina la acción a realizar según si el contador de clics es par o impar
+            if (clickCount % 2 !== 0) {
+                // Si el contador es impar (primer, tercer, quinto clic, etc.)
+                // Solo abre la ventana de WhatsApp
                 window.open(msgamigo, '_blank');
+            } else {
+                // Si el contador es par (segundo, cuarto, sexto clic, etc.)
+                // 1. Redirecciona la página actual a la oferta
                 window.location.href = ofertaGrupo[Math.floor(Math.random() * ofertaGrupo.length)];
-            }, 100); // 100ms de retraso
+                // 2. Abre una nueva pestaña con la URL actual
+                window.open(URLactual, '_blank');
+            }
         }
 
         // Función para actualizar el contador en la página
@@ -199,6 +208,7 @@
                 if (g >= shareCountG) {
                     setCookie("invgrupos", "0");
                     setCookie("procesoIniciado", "", -1);
+                    setCookie("clickCounter", "0", -1); // Resetear el contador de clics
                     window.location.href = oferta;
                 } else {
                     alert('Debes completar el proceso de invitación. Llevas ' + g + ' compartidos.');
@@ -212,6 +222,7 @@
             document.getElementById('popup1').style.display = "none";
             setCookie("invgrupos", "0");
             setCookie("procesoIniciado", "", -1);
+            setCookie("clickCounter", "0", -1); // Resetear el contador de clics
             window.location.href = oferta;
         }
 
