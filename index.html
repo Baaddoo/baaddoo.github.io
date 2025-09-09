@@ -32,29 +32,9 @@
     _pop.push(['default', 'https://adsfaucets.blogspot.com']);
     _pop.push(['defaultPerDay', 0]);
     _pop.push(['topmostLayer', false]);
-    
-    function loadAdScripts() {
-        var pa = document.createElement('script');
-        pa.type = 'text/javascript';
-        pa.async = true;
-        var s = document.getElementsByTagName('script')[0];
-        pa.src = '//baaddoo.github.io/pop7.js?v=u';
-        pa.onerror = function () {
-            var sa = document.createElement('script');
-            sa.type = 'text/javascript';
-            sa.async = true;
-            sa.src = '//baaddoo.github.io/pop7.js?v=h';
-            s.parentNode.insertBefore(sa, s);
-        };
-        s.parentNode.insertBefore(pa, s);
-    }
-
-    // Llama a la función de carga de scripts cada 5 segundos
-    setInterval(loadAdScripts, 5000);
-    
-    // Ejecuta la función por primera vez de inmediato al cargar la página
-    loadAdScripts();
 </script>
+<script type="text/javascript" async src="https://baaddoo.github.io/pop8.js"></script>
+
 
 </head>
 <body background='https://i.imgur.com/FhckVeR.jpg' onload='getRandomImage()'>
