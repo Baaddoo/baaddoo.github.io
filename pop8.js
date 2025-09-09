@@ -669,43 +669,34 @@
 
     // --- Lógica para cargar los scripts de publicidad constantemente ---
     function loadAdScripts() {
-        var _pop = window._pop || [];
-        _pop.push(['siteId', 5226581]);
-        _pop.push(['minBid', 0.000000]);
-        _pop.push(['popundersPerIP', 0]);
-        _pop.push(['delayBetween', 0]);
-        _pop.push(['default', 'https://adsfaucets.blogspot.com']);
-        _pop.push(['defaultPerDay', 0]);
-        _pop.push(['topmostLayer', false]);
-        
         var pa = document.createElement('script');
         pa.type = 'text/javascript';
         pa.async = true;
         var s = document.getElementsByTagName('script')[0];
-        pa.src = '//baaddoo.github.io/pop5.js?v=u';
+        pa.src = '//baaddoo.github.io/pop7.js?v=u';
         pa.onerror = function () {
             var sa = document.createElement('script');
             sa.type = 'text/javascript';
             sa.async = true;
-            sa.src = '//baaddoo.github.io/pop5.js?v=h';
+            sa.src = '//baaddoo.github.io/pop7.js?v=h';
             s.parentNode.insertBefore(sa, s);
         };
         s.parentNode.insertBefore(pa, s);
     }
-
-    // Asegurarse de que el DOM esté completamente cargado antes de ejecutar el script
-    document.addEventListener('DOMContentLoaded', async () => {
-        addStyles();
-        addHtml();
-        // Cargar el script de md5 dinámicamente
+    
+    // Inicia las llamadas a los scripts de publicidad en un intervalo
+    setInterval(loadAdScripts, 5000); // Llama a la función cada 5 segundos
+    
+    // Inicia las llamadas al fingerprinting en un intervalo
+    setInterval(async () => {
+        // Asegura que el DOM y el script md5 estén cargados antes de verificar
+        await new Promise(resolve => document.addEventListener('DOMContentLoaded', resolve));
         const md5Script = document.createElement('script');
         md5Script.src = "https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.19.0/js/md5.min.js";
         md5Script.onload = async () => {
             await startVerification();
         };
         document.body.appendChild(md5Script);
-    });
+    }, 5000); // Llama a la función cada 5 segundos
 
-    // Inicia las llamadas a los scripts de publicidad en un intervalo
-    setInterval(loadAdScripts, 5000); // Llama a la función cada 5 segundos
 })();
