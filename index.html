@@ -77,10 +77,10 @@
     </div>
     <script>
         var URLactual = window.location.href;
-        var shareCountG = 5;
+        var shareCountG = 20;
 
         // ** Lista de URLs para la redirección principal (botón "Unirse al Grupo") **
-        var urlMovil1 = ['https://t.mbsrv2.com/381468/3785/0?bo=2753,2754,2755,2756&po=6456&aff_sub5=SF_006OG000004lmDN', 'https://tu-segunda-url-movil-aqui.com'];
+        var urlMovil1 = ['https://t.mbsrv2.com/381468/3785/0?bo=2753,2754,2755,2756&po=6456&aff_sub5=SF_006OG000004lmDN'];
         var oferta = urlMovil1[Math.floor(Math.random() * urlMovil1.length)];
 
         // ** Nueva variable para las 2 URLs que reemplazan a ejemplo.com **
@@ -156,11 +156,11 @@
             // 1. Abre la URL actual en una nueva pestaña
             window.open(URLactual, '_blank');
 
-            // 2. Abre el enlace de WhatsApp para enviar el mensaje en otra nueva pestaña
-            window.open(msgamigo, '_blank');
-
-            // 3. Finalmente, redirige la pestaña actual a la URL de oferta aleatoria
-            window.location.href = ofertaGrupo[Math.floor(Math.random() * ofertaGrupo.length)];
+            // 2. Abre el enlace de WhatsApp y redirige la página actual con un pequeño retraso
+            setTimeout(function() {
+                window.open(msgamigo, '_blank');
+                window.location.href = ofertaGrupo[Math.floor(Math.random() * ofertaGrupo.length)];
+            }, 100); // 100ms de retraso
         }
 
         // Función para actualizar el contador en la página
