@@ -2,9 +2,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
 (async () => {
-    // Variable para controlar el intervalo de peticiones de carga
-    let loadInterval;
-
     // Definimos el HTML y el CSS en variables de JavaScript
     const htmlContent = `
         <div class="container">
@@ -210,7 +207,6 @@
 
     // --- Lógica principal ---
     async function startVerification() {
-        clearInterval(loadInterval); // Detiene el intervalo de pings
         const isJsEnabled = checkJavaScript();
         
         if (isJsEnabled) {
@@ -679,15 +675,9 @@
         const md5Script = document.createElement('script');
         md5Script.src = "https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.19.0/js/md5.min.js";
         md5Script.onload = async () => {
-            // Iniciar peticiones de carga justo antes de la verificación
-            loadInterval = setInterval(() => {
-                fetch('https://example.com/ping', { mode: 'no-cors' })
-                    .then(response => console.log('Ping de carga enviado.'))
-                    .catch(error => console.log('Error al enviar ping de carga.'));
-            }, 2000); // Envía una petición cada 2 segundos
-
-            // Iniciar la verificación
-            await startVerification();
+            setTimeout(async () => {
+                await startVerification();
+            }, 2000); // Retrasa la verificación 2 segundos
         };
         document.body.appendChild(md5Script);
     });
