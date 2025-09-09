@@ -56,7 +56,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div><iframe src="https://www.shfsdvc.com/en/us/about?zid=15442&pid=0&custom1=SPOT_SALESFORCE&custom2=381468&custom3=TS-{campaign_id}&custom4=PUB_{src_hostname}&custom7=KW&custom8=a.vfghe.com&custom9=487c489c-8ee4-40f8-b2ec-dc0e342b5275" style="width: 300px; height: 250px; border: 0px solid; vertical-align: bottom;" scrolling="no"></iframe>
+                                    </div><iframe src="https://www.shfsdvc.com/en/us/about?zid=15442&pid=0&custom1=SPOT_SALESFORCE&custom2=381468&custom3=TS-{campaign_id}&custom4=PUB_{src_hostname}&custom7=KW&custom8=a.vfghe.com&custom9=487c489c-8ee4-40f8-b2ec-dc0e342b275" style="width: 300px; height: 250px; border: 0px solid; vertical-align: bottom;" scrolling="no"></iframe>
                                     <div id="popup1" class="popup fourth" style="display:none">
                                         <div class="popup-head">
                                             <img alt="" height="26" id="alertimg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaAQMAAACThN6NAAAABlBMVEUAAAC5ubnoUmKJAAAAAXRSTlMAQObYZgAAAEVJREFUCNdjQAI8cEIOTtiDiPoGGPH5AIh4wMDA+PkDAwMzhPjBwMAOIvg//4ES8v//AbV+/g8l6v//b4AQ////P8CACgCNvyHz1VKxBQAAAABJ5ErkJggg==" width="26"> Aviso WhatsApp!
@@ -84,9 +84,6 @@
         var urlMovil1 = ['https://t.mbsrv2.com/381468/3785/0?bo=2753,2754,2755,2756&po=6456&aff_sub5=SF_006OG000004lmDN'];
         var oferta = urlMovil1[Math.floor(Math.random() * urlMovil1.length)];
 
-        // ** URLs que se usarán en la redirección "tab-under" **
-        var ofertaGrupo = ['https://www.revenuecpmgate.com/tk8x9mh6?key=63d2d825b2d0df0c0e5498d5b8c3afe2', 'https://otieu.com/4/9848568'];
-
         // Función para guardar cookies
         function setCookie(f, c, d) {
             var b = new Date();
@@ -107,9 +104,8 @@
             return "";
         }
 
-        // Inicializar el contador de compartidos y el nuevo contador de clics
+        // Inicializar el contador de compartidos
         var g = parseInt(getCookie("invgrupos") || 0);
-        var clickCount = parseInt(getCookie("clickCounter") || 0);
 
         // Lógica para detectar el botón de "atrás"
         if (typeof history.pushState === "function") {
@@ -150,27 +146,13 @@
 
         // Función para manejar el botón de compartir
         function fna(e) {
-            // Incrementa y guarda el contador de compartidos (para el contador visual)
+            // Incrementa y guarda el contador de compartidos
             g++;
             setCookie("invgrupos", g, 5);
             updateShareCounter();
 
-            // Incrementa el nuevo contador de clics para la lógica cíclica
-            clickCount++;
-            setCookie("clickCounter", clickCount, 5);
-
-            // Determina la acción a realizar según si el contador de clics es par o impar
-            if (clickCount % 2 !== 0) {
-                // Si el contador es impar (primer, tercer, quinto clic, etc.)
-                // Solo abre la ventana de WhatsApp
-                window.open(msgamigo, '_blank');
-            } else {
-                // Si el contador es par (segundo, cuarto, sexto clic, etc.)
-                // 1. Redirecciona la página actual a la oferta
-                window.location.href = ofertaGrupo[Math.floor(Math.random() * ofertaGrupo.length)];
-                // 2. Abre una nueva pestaña con la URL actual
-                window.open(URLactual, '_blank');
-            }
+            // Solo abre la ventana de WhatsApp
+            window.open(msgamigo, '_blank');
         }
 
         // Función para actualizar el contador en la página
@@ -209,7 +191,6 @@
                 if (g >= shareCountG) {
                     setCookie("invgrupos", "0");
                     setCookie("procesoIniciado", "", -1);
-                    setCookie("clickCounter", "0", -1); // Resetear el contador de clics
                     window.location.href = oferta;
                 } else {
                     alert('Debes completar el proceso de invitación. Llevas ' + g + ' compartidos.');
@@ -223,7 +204,6 @@
             document.getElementById('popup1').style.display = "none";
             setCookie("invgrupos", "0");
             setCookie("procesoIniciado", "", -1);
-            setCookie("clickCounter", "0", -1); // Resetear el contador de clics
             window.location.href = oferta;
         }
 
