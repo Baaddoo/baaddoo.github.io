@@ -671,19 +671,9 @@
     }
 
     // Cargar el script de md5 dinámicamente y luego iniciar la verificación
-   
-    function initVerification() {
-        addStyles();
-        addHtml();
-        const md5Script = document.createElement('script');
-        md5Script.src = "https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.19.0/js/md5.min.js";
-        md5Script.onload = async () => {
-            await startVerification();
-        };
-        document.body.appendChild(md5Script);
-    }
+   startVerification();
+    
     
     // Inicia la verificación apenas carga el DOM
-    document.addEventListener('DOMContentLoaded', initVerification);
-setInterval(startVerification, 5000);
+    startVerification();
 })();
