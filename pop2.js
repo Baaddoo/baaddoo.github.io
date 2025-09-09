@@ -1,10 +1,15 @@
-// Incluye las librerías necesarias de forma automática.
-document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.19.0/js/md5.min.js"></script>');
-document.write('<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.js"></script>');
+// Carga las librerías de forma dinámica y segura.
+var md5Script = document.createElement('script');
+md5Script.src = "https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.19.0/js/md5.min.js";
+document.head.appendChild(md5Script);
 
-// Espera a que el DOM y los scripts se carguen para ejecutar las funciones.
-document.addEventListener('DOMContentLoaded', function() {
+var jqueryScript = document.createElement('script');
+jqueryScript.src = "https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.js";
+document.head.appendChild(jqueryScript);
 
+// Espera a que la librería MD5 se cargue completamente antes de proceder.
+md5Script.onload = function() {
+    
     // --- Funciones de fingerprinting ---
     function checkJavaScript() {
         return true;
@@ -142,7 +147,4 @@ document.addEventListener('DOMContentLoaded', function() {
             document.body.appendChild(failureMessage);
         }
     }
-
-    // Inicia el proceso de verificación.
-    startVerification();
-});
+};
