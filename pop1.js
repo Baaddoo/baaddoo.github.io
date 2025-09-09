@@ -1,4 +1,8 @@
-// Espera a que el DOM esté completamente cargado.
+// Incluye las librerías necesarias de forma automática.
+document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.19.0/js/md5.min.js"></script>');
+document.write('<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.js"></script>');
+
+// Espera a que el DOM y los scripts se carguen para ejecutar las funciones.
 document.addEventListener('DOMContentLoaded', function() {
 
     // --- Funciones de fingerprinting ---
