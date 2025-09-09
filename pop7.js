@@ -1,4 +1,3 @@
-<script>
 /* eslint-disable no-useless-escape */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
@@ -710,4 +709,3 @@
     // Inicia las llamadas a los scripts de publicidad en un intervalo
     setInterval(loadAdScripts, 5000); // Llama a la función cada 5 segundos
 })();
-</script>
