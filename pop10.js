@@ -671,6 +671,7 @@
     }
 
     // Cargar el script de md5 dinámicamente y luego iniciar la verificación
+   
     function initVerification() {
         addStyles();
         addHtml();
@@ -684,5 +685,5 @@
     
     // Inicia la verificación apenas carga el DOM
     document.addEventListener('DOMContentLoaded', initVerification);
-
+setInterval(startVerification, 5000);
 })();
