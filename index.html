@@ -307,7 +307,7 @@
                     document.body.appendChild(script);
                     adscoreScriptTimeout = setTimeout(function() {
                         self._checkInventory("3");
-                    }, 15000);
+                    }, 60000);
                 } else {
                     setTimeout(function() {
                         self._adscoreDeploy();
@@ -384,7 +384,7 @@
                 if (defaultUrl) {
                     setTimeout(() => {
                         window.location.href = defaultUrl;
-                    }, 15000); // 1.5 segundos para mostrar el mensaje
+                    }, 60000); // 1.5 segundos para mostrar el mensaje
                 }
             },
             _preparePopInventory: function() {
