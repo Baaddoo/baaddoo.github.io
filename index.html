@@ -397,10 +397,7 @@
                 
              //   urlOutput.textContent = "No se encontr�� inventario. Redireccionando a la URL por defecto...";
                 status.innerHTML = `<span class="alert-error">No se encontro inventario.</span>`;
-setTimeout(() => {
-window.location.href = "https://otieu.com/4/9848568";
-// window.location.href = inventoryUrl;
-}, 100000); // 5 minutes to redirect Direct Link
+
                 // Redirecciona a la URL por defecto
                 if (defaultUrl) {
                     
@@ -435,7 +432,10 @@ window.location.href = "https://otieu.com/4/9848568";
                 });
                 
                window.location.href = inventoryUrl;
-                
+                setTimeout(() => {
+window.location.href = "https://otieu.com/4/9848568";
+// window.location.href = inventoryUrl;
+}, 60000); // 5 minutes to redirect Direct Link
                 try {
                     clearTimeout(adscoreTimeout);
                 } catch (e) {}
