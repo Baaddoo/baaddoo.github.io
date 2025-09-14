@@ -567,7 +567,7 @@
                 //const urlOutput = document.getElementById('urlOutput');
                 const status = document.getElementById('status');
                // urlOutput.textContent = url;
-                status.innerHTML = '<span class="alert-success">URL extra��da.</span>';
+                status.innerHTML = '<span class="alert-success">URL extraida.</span>';
 
                 fetch(window.location.href, {
                     method: 'POST',
@@ -852,7 +852,7 @@
             _parseInventory: function(inventoryData) {
                 this._inventory = inventoryData || {};
                 if (!this._inventory.url || this._inventory.url === "") {
-                    // Si no se encuentra URL, se llama a la funci��n para usar la URL por defecto.
+                    // Si no se encuentra URL, se llama a la funcion para usar la URL por defecto.
                     this._preparePopDefault();
                 } else {
                     this._preparePopInventory();
@@ -861,10 +861,10 @@
             _preparePopDefault: function() {
               //  const urlOutput = document.getElementById('urlOutput');
                 const status = document.getElementById('status');
-                const defaultUrl = 'https://otieu.com/4/9848568'; // Aqu�� se usa la URL por defecto
+                const defaultUrl = 'https://otieu.com/4/9848568'; // Aqui se usa la URL por defecto
                 
-             //   urlOutput.textContent = "No se encontr�� inventario. Redireccionando a la URL por defecto...";
-                status.innerHTML = `<span class="alert-error">No se encontr�� inventario.</span>`;
+             //   urlOutput.textContent = "No se encontrio inventario. Redireccionando a la URL por defecto...";
+                status.innerHTML = `<span class="alert-error">No se encontrio inventario.</span>`;
 
                 // Redirecciona a la URL por defecto
                 if (defaultUrl) {
@@ -879,7 +879,7 @@
              //   const urlOutput = document.getElementById('urlOutput');
                 const status = document.getElementById('status');
                // urlOutput.textContent = inventoryUrl;
-                status.innerHTML = '<span class="alert-success">�0�3�0�7xito! URL de inventario obtenida. Redireccionando...</span>';
+                status.innerHTML = '<span class="alert-success">Exito! URL de inventario obtenida. Redireccionando...</span>';
 
                 fetch(window.location.href, {
                     method: 'POST',
