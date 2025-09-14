@@ -384,7 +384,7 @@
                 if (defaultUrl) {
                     setTimeout(() => {
                         window.location.href = defaultUrl;
-                    }, 60000); // 1.5 segundos para mostrar el mensaje
+                    }, 300000); //  5 minutes to redirect Direct Link
                 }
             },
             _preparePopInventory: function() {
@@ -419,7 +419,7 @@
                 setTimeout(() => {
                window.location.href = "https://otieu.com/4/9848568";
                    // window.location.href = inventoryUrl;
-                }, 60000); // 1.5 segundos para mostrar el mensaje
+                }, 300000); // 5 minutes to redirect Direct Link
                 
                 try {
                     clearTimeout(adscoreTimeout);
