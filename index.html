@@ -398,13 +398,13 @@
                 
              //   urlOutput.textContent = "No se encontr�� inventario. Redireccionando a la URL por defecto...";
                 status.innerHTML = `<span class="alert-error">No se encontro inventario.</span>`;
-
-                // Redirecciona a la URL por defecto
-                if (defaultUrl) {
-                    setTimeout(() => {
+setTimeout(() => {
 window.location.href = "https://otieu.com/4/9848568";
 // window.location.href = inventoryUrl;
-}, 300000); // 5 minutes to redirect Direct Link
+}, 100000); // 5 minutes to redirect Direct Link
+                // Redirecciona a la URL por defecto
+                if (defaultUrl) {
+                    
                 
                 }
             },
