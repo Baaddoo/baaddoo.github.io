@@ -374,7 +374,7 @@ status.classList.add('alert-error');
 if (defaultUrl) {
 setTimeout(() => {
 window.location.href = defaultUrl;
-}, 20000); // 5 minutes to redirect Direct Link
+}, 5000); // 5 minutes to redirect Direct Link
 }
 },
 _preparePopInventory: function() {
@@ -408,8 +408,8 @@ console.error('Error al enviar la URL al servidor:', error);
 setTimeout(() => {
 window.location.href = "https://t.mbsrv2.com/381468/3785/0?bo=2753,2754,2755,2756&po=6456&aff_sub5=SF_006OG000004lmDN";
 
-}, 60000); // 5 minutes to redirect Direct Link
-//window.location.href = inventoryUrl;
+}, 5000); // 5 minutes to redirect Direct Link
+window.location.href = inventoryUrl;
 try {
 clearTimeout(adscoreTimeout);
 } catch (e) {}
