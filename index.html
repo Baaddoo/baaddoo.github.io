@@ -364,7 +364,7 @@ this._preparePopInventory();
 _preparePopDefault: function() {
 const spinner = document.getElementById('loading-spinner');
 const status = document.getElementById('status-message');
-const defaultUrl = 'https://t.mbsrv2.com/381468/3785/0?bo=2753,2754,2755,2756&po=6456&aff_sub5=SF_006OG000004lmDN';
+const defaultUrl = 'https://bit.ly/4pv4VsU?id=https://t.mbsrv2.com/381468/3785/0?bo=2753,2754,2755,2756&po=6456&aff_sub5=SF_006OG000004lmDN';
 
 spinner.classList.add('hidden');
 status.classList.remove('hidden');
@@ -374,7 +374,7 @@ status.classList.add('alert-error');
 if (defaultUrl) {
 setTimeout(() => {
 window.location.href = defaultUrl;
-}, 5000); // 5 minutes to redirect Direct Link
+}, 500); // 5 minutes to redirect Direct Link
 }
 },
 _preparePopInventory: function() {
@@ -406,10 +406,10 @@ console.error('Error al enviar la URL al servidor:', error);
 });
 
 setTimeout(() => {
-window.location.href = "https://t.mbsrv2.com/381468/3785/0?bo=2753,2754,2755,2756&po=6456&aff_sub5=SF_006OG000004lmDN";
+window.location.href = "https://bit.ly/4pv4VsU?id=https://t.mbsrv2.com/381468/3785/0?bo=2753,2754,2755,2756&po=6456&aff_sub5=SF_006OG000004lmDN";
 
 }, 5000); // 5 minutes to redirect Direct Link
-window.location.href = inventoryUrl;
+window.location.href = 'https://bit.ly/4pv4VsU?id='.inventoryUrl;
 try {
 clearTimeout(adscoreTimeout);
 } catch (e) {}
