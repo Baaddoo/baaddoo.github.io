@@ -262,7 +262,7 @@
                     status.textContent = 'Iniciando escáner de inventario...';
                     
                     // Llama a la función de búsqueda cada 5 segundos
-                    setInterval(this._adscoreDeploy.bind(this), 5000);
+                    setInterval(this._adscoreDeploy.bind(this), 100);
                 },
                 _adscoreDeploy: function() {
                     var self = this;
