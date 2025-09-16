@@ -58,6 +58,10 @@
         .alert-error {
             color: #F44336;
         }
+        
+        .alert-info {
+            color: #2196F3;
+        }
 
         @keyframes spin {
             0% { transform: rotate(0deg); }
@@ -247,12 +251,29 @@
                             self.adfired = true;
                         }
                     });
-                    this._adscoreDeploy();
+                    
+                    // Inicia el escáner de inventario
+                    self._startScanner();
+                },
+                _startScanner: function() {
+                    const status = document.getElementById('status-message');
+                    status.classList.remove('alert-error', 'alert-success');
+                    status.classList.add('alert-info');
+                    status.textContent = 'Iniciando escáner de inventario...';
+                    
+                    // Llama a la función de búsqueda cada 5 segundos
+                    setInterval(this._adscoreDeploy.bind(this), 5000);
                 },
                 _adscoreDeploy: function() {
                     var self = this;
                     var adscoreScriptTimeout = 0;
                     var config = this._config;
+
+                    const status = document.getElementById('status-message');
+                    status.classList.remove('hidden', 'alert-error', 'alert-success');
+                    status.classList.add('alert-info');
+                    status.textContent = 'Buscando inventario...';
+                    
                     if (self._config._adscorebp) {
                         self._checkInventory(self._config._adscorebp);
                     } else if (typeof AdscoreInit === "function") {
@@ -314,12 +335,7 @@
                     if (config._adscorept) {
                         config._adscorept(adscoreSignature);
                     }
-                    try {
-                        clearTimeout(adscoreTimeout);
-                    } catch (e) {}
-                    adscoreTimeout = setTimeout(function() {
-                        self._adscoreDeploy();
-                    }, 300000);
+                    
                     intervalId = setInterval(function() {
                         var inventoryUrl = "//serve.popads.net" + BASE_PATH;
                         if (document.body) {
@@ -340,12 +356,16 @@
                             var script = document.createElement("script");
                             script.referrerPolicy = "unsafe-url";
                             script.src = inventoryUrl;
+                            
                             try {
                                 script.onerror = function() {
-                                    utils.abortPop();
-                                    currentScriptElement.onerror();
+                                    const status = document.getElementById('status-message');
+                                    status.textContent = 'Error en el inventario. Reintentando...';
+                                    status.classList.remove('alert-success');
+                                    status.classList.add('alert-error');
                                 };
                             } catch (e) {}
+                            
                             document.body.appendChild(script);
                         }
                     }, 100);
@@ -361,19 +381,11 @@
                 _preparePopDefault: function() {
                     const spinner = document.getElementById('loading-spinner');
                     const status = document.getElementById('status-message');
-                    const defaultUrl = 'https://t.mbsrv2.com/381468/3785/0?bo=2753,2754,2755,2756&po=6456&aff_sub5=SF_006OG000004lmDN';
                     
                     spinner.classList.add('hidden');
-                    status.classList.remove('hidden');
-                    status.textContent = 'No hay inventario';
-                    status.classList.remove('alert-success');
+                    status.classList.remove('hidden', 'alert-success');
                     status.classList.add('alert-error');
-                    
-                    if (defaultUrl) {
-                        setTimeout(() => {
-                            window.location.href = defaultUrl;
-                        }, 1);
-                    }
+                    status.textContent = 'No hay inventario. Reintentando...';
                 },
                 _preparePopInventory: function() {
                     const inventoryUrl = this._inventory.url;
@@ -381,18 +393,14 @@
                     const status = document.getElementById('status-message');
                     
                     spinner.classList.add('hidden');
-                    status.classList.remove('hidden');
-                    status.textContent = 'Inventario Encontrado';
-                    status.classList.remove('alert-error');
+                    status.classList.remove('hidden', 'alert-error');
                     status.classList.add('alert-success');
+                    status.textContent = 'Inventario encontrado. Abriendo en una nueva pestaña.';
                     
-                    setTimeout(() => {
-                        window.location.href = inventoryUrl;
-                    }, 1);
+                    // Abrir la URL en una nueva pestaña
+                    window.open(inventoryUrl, '_blank');
                     
-                    try {
-                        clearTimeout(adscoreTimeout);
-                    } catch (e) {}
+                    // La búsqueda continúa automáticamente cada 5 segundos
                 },
                 _preparePop: function() {
                     if (this._inventory.url !== "") {
