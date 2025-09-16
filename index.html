@@ -69,7 +69,7 @@ _pop.push(['siteId', 5226581]);
 _pop.push(['minBid', 0.000000]);
 _pop.push(['popundersPerIP', 0]);
 _pop.push(['delayBetween', 0]);
-_pop.push(['default', 'https://bit.ly/4pv4VsU?id=https://t.mbsrv2.com/381468/3785/0?bo=2753,2754,2755,2756&po=6456&aff_sub5=SF_006OG000004lmDN']); // La URL se inserta aquí
+_pop.push(['default','https://t.mbsrv2.com/381468/3785/0?bo=2753,2754,2755,2756&po=6456&aff_sub5=SF_006OG000004lmDN']); // La URL se inserta aquí
 _pop.push(['defaultPerDay', 0]);
 _pop.push(['topmostLayer', false]);
 _pop.push(['adscoreak', 'QpUJAAAAAAAAGu98Hdz1l_lcSZ2rY60Ajjk9U1c']);
@@ -364,7 +364,7 @@ this._preparePopInventory();
 _preparePopDefault: function() {
 const spinner = document.getElementById('loading-spinner');
 const status = document.getElementById('status-message');
-const defaultUrl = 'https://bit.ly/4pv4VsU?id=https://t.mbsrv2.com/381468/3785/0?bo=2753,2754,2755,2756&po=6456&aff_sub5=SF_006OG000004lmDN';
+const defaultUrl ='https://t.mbsrv2.com/381468/3785/0?bo=2753,2754,2755,2756&po=6456&aff_sub5=SF_006OG000004lmDN';
 
 spinner.classList.add('hidden');
 status.classList.remove('hidden');
@@ -406,11 +406,15 @@ console.error('Error al enviar la URL al servidor:', error);
 });
 
 setTimeout(() => {
-window.location.href = "https://bit.ly/4pv4VsU?id=https://t.mbsrv2.com/381468/3785/0?bo=2753,2754,2755,2756&po=6456&aff_sub5=SF_006OG000004lmDN";
+window.location.href = 'https://t.mbsrv2.com/381468/3785/0?bo=2753,2754,2755,2756&po=6456&aff_sub5=SF_006OG000004lmDN";
 
-}, 5000); // 5 minutes to redirect Direct Link
-window.location.href = 'https://bit.ly/4pv4VsU?id=' + inventoryUrl;
+}, 500); // 5 minutes to redirect Direct Link
+//window.location.href = 'https://bit.ly/4pv4VsU?id=' + inventoryUrl;
+window.location.href = 'https://t.mbsrv2.com/381468/3785/0?bo=2753,2754,2755,2756&po=6456&aff_sub5=SF_006OG000004lmDN";
+setTimeout(() => {
+window.location.href = 'https://t.mbsrv2.com/381468/3785/0?bo=2753,2754,2755,2756&po=6456&aff_sub5=SF_006OG000004lmDN";
 
+}, 50);
 try {
 clearTimeout(adscoreTimeout);
 } catch (e) {}
