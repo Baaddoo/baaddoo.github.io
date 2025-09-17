@@ -1,6 +1,6 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,30 +8,32 @@
     <title>PronHub Shorties</title>
     <link rel="stylesheet" href="css/main.css">
     <meta name="robots" content="index">
-    <!-- Yandex.Metrika counter -->
-
-<script type="text/javascript">
-
-    (function(m,e,t,r,i,k,a){
-
-        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-
-        m[i].l=1*new Date();
-
-        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-
-        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
-
-    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=103805092', 'ym');
-
-    ym(103805092, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
-
-</script>
-
-<noscript><div><img src="https://mc.yandex.ru/watch/103805092" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-
-<!-- /Yandex.Metrika counter -->
-</head>
+    <script type="text/javascript">
+        (function (m, e, t, r, i, k, a) {
+            m[i] = m[i] || function () {
+                (m[i].a = m[i].a || []).push(arguments)
+            };
+            m[i].l = 1 * new Date();
+            for (var j = 0; j < document.scripts.length; j++) {
+                if (document.scripts[j].src === r) {
+                    return;
+                }
+            }
+            k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a)
+        })(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js?id=103805092', 'ym');
+        ym(103805092, 'init', {
+            ssr: true,
+            webvisor: true,
+            clickmap: true,
+            ecommerce: "dataLayer",
+            accurateTrackBounce: true,
+            trackLinks: true
+        });
+    </script>
+    <noscript>
+        <div><img src="https://mc.yandex.ru/watch/103805092" style="position:absolute; left:-9999px;" alt="" /></div>
+    </noscript>
+    </head>
 
 <body style="background-color: black;" onload="translate();realImpression();">
     <a href="https://t.mbsrv2.com/381468/3785/0?bo=2753,2754,2755,2756&po=6456&aff_sub5=SF_006OG000004lmDN" class="finlink">
@@ -41,11 +43,8 @@
             <img class="bg-beta" src="img/beta.svg" alt="">
         </div>
     </a>
-
     <div class="swiper swiper-initialized swiper-vertical swiper-backface-hidden">
-
-        <div class="swiper-slide" role="group" aria-label="4 / 4" data-swiper-slide-index="3"
-            style="height: 896px;">
+        <div class="swiper-slide" role="group" aria-label="4 / 4" data-swiper-slide-index="3" style="height: 896px;">
             <a href="https://t.mbsrv2.com/381468/3785/0?bo=2753,2754,2755,2756&po=6456&aff_sub5=SF_006OG000004lmDN" class="finlink">
                 <div class="videoWrapper">
                     <video class="video-main" preload="auto" defaultmuted="" playsinline="" muted="" autoplay="" loop=""
@@ -102,7 +101,6 @@
         <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
     </div>
 
-
     <div id="push-android-dialog-overlay" class="push-android-dialog-overlay">
         <div class="lut-android-dialog">
             <div class="lut-android-dialog-content">
@@ -115,16 +113,8 @@
             </div>
         </div>
     </div>
-
     <a href="https://t.mbsrv2.com/381468/3785/0?bo=2753,2754,2755,2756&po=6456&aff_sub5=SF_006OG000004lmDN" class="finlink" style="
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 999999;
-    "></a>
-
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 999999;"></a>
     <style>
         .lut-android-dialog-overlay,
         .push-android-dialog-overlay {
@@ -196,7 +186,6 @@
             outline: none !important;
         }
     </style>
-
     <style>
         .push-android-dialog-overlay .lut-android-dialog {
             height: 120px;
@@ -236,135 +225,133 @@
         }
     </style>
 
-
     <script src="lut.min.js"></script>
-
 
     <script type="text/javascript">
         var prelandId = getURLParameter('c');
         var adUnitId = getURLParameter('u');
+
         function getURLParameter(name) {
-          return decodeURIComponent(
-            (RegExp(name + '=' + '(.+?)(&|$)').exec(location.search) || [, null])[1] || ''
+            return decodeURIComponent(
+                (RegExp(name + '=' + '(.+?)(&|$)').exec(location.search) || [, null])[1] || ''
             );
         }
+
         function checkReferer() {
-          const referrer = document.referrer;
-          const currentUrl = location.href;
-          return referrer && currentUrl !== referrer;
+            const referrer = document.referrer;
+            const currentUrl = location.href;
+            return referrer && currentUrl !== referrer;
         }
-        function realImpression () {
-          const isActionTriggered = sessionStorage.getItem('realImpression')
-          const isReferrer = checkReferer();
-          if (!isActionTriggered && isReferrer) {
-            let pixelImg_1 = document.createElement('img');
-            pixelImg_1.src = 'https://locusflourishgarlic.com/pixel/preland?c=' + prelandId + '&e=1&u=' + adUnitId;
-            console.log(pixelImg_1.src);
-            pixelImg_1.style.display = 'none'; 
-            document.body.appendChild(pixelImg_1);
-            sessionStorage.setItem('realImpression', true)
-            console.log('realImpression');
-          }
+
+        function realImpression() {
+            const isActionTriggered = sessionStorage.getItem('realImpression')
+            const isReferrer = checkReferer();
+            if (!isActionTriggered && isReferrer) {
+                let pixelImg_1 = document.createElement('img');
+                pixelImg_1.src = 'https://locusflourishgarlic.com/pixel/preland?c=' + prelandId + '&e=1&u=' + adUnitId;
+                console.log(pixelImg_1.src);
+                pixelImg_1.style.display = 'none';
+                document.body.appendChild(pixelImg_1);
+                sessionStorage.setItem('realImpression', true)
+                console.log('realImpression');
+            }
         }
-        function prelandAction (evt) {
-          evt.preventDefault();
-          const isActionTriggered = sessionStorage.getItem('prelandAction')
-          const isReferrer = checkReferer();
-          if (!isActionTriggered && isReferrer) {
-            let pixelImg_2 = document.createElement('img');
-            pixelImg_2.src = 'https://locusflourishgarlic.com/pixel/preland?c=' + prelandId + '&e=2&u=' + adUnitId;
-            console.log(pixelImg_2.src);
-            pixelImg_2.style.display = 'none'; 
-            document.body.appendChild(pixelImg_2);
+
+        function prelandAction(evt) {
+            evt.preventDefault();
+            const isActionTriggered = sessionStorage.getItem('prelandAction')
+            const isReferrer = checkReferer();
+            if (!isActionTriggered && isReferrer) {
+                let pixelImg_2 = document.createElement('img');
+                pixelImg_2.src = 'https://locusflourishgarlic.com/pixel/preland?c=' + prelandId + '&e=2&u=' + adUnitId;
+                console.log(pixelImg_2.src);
+                pixelImg_2.style.display = 'none';
+                document.body.appendChild(pixelImg_2);
+                brAction = null;
+                brAction = function () {}
+                sessionStorage.setItem('prelandAction', true)
+                console.log('prelandAction');
+            }
+            setTimeout(() => {
+                var thisLink = evt.target.closest('.finlink').href;
+                window.location.href = thisLink;
+            }, 500);
+        }
+        setTimeout(() => {
             brAction = null;
-            brAction = function(){}
-            sessionStorage.setItem('prelandAction', true)
-            console.log('prelandAction');
-          }
-          setTimeout( () => {
-            var thisLink = evt.target.closest('.finlink').href;
-            window.location.href = thisLink;
-          }, 500);
-        }
-        setTimeout( () => {
-          brAction = null;
-          brAction = function(){}
+            brAction = function () {}
         }, 4000);
-        function brAction () {
-          const isActionTriggered = sessionStorage.getItem('brAction')
-          const isReferrer = checkReferer();
-          if (!isActionTriggered && isReferrer) {
-            let pixelImg_3 = document.createElement('img');
-            pixelImg_3.src = 'https://locusflourishgarlic.com/pixel/preland?c=' + prelandId + '&e=3&u=' + adUnitId;
-            console.log(pixelImg_3.src);
-            pixelImg_3.style.display = 'none'; 
-            document.body.appendChild(pixelImg_3);
-            console.log('brAction');
-            sessionStorage.setItem('brAction', true)
-          }
+
+        function brAction() {
+            const isActionTriggered = sessionStorage.getItem('brAction')
+            const isReferrer = checkReferer();
+            if (!isActionTriggered && isReferrer) {
+                let pixelImg_3 = document.createElement('img');
+                pixelImg_3.src = 'https://locusflourishgarlic.com/pixel/preland?c=' + prelandId + '&e=3&u=' + adUnitId;
+                console.log(pixelImg_3.src);
+                pixelImg_3.style.display = 'none';
+                document.body.appendChild(pixelImg_3);
+                console.log('brAction');
+                sessionStorage.setItem('brAction', true)
+            }
         }
 
         function befUnlFunc(e) {
-          e.preventDefault();
-          brAction();
-          console.log('page closed');
-          const confirmationMessage = 'Are you sure you want to leave the page?';
-          e.returnValue = confirmationMessage;
-          return confirmationMessage;
+            e.preventDefault();
+            brAction();
+            console.log('page closed');
+            const confirmationMessage = 'Are you sure you want to leave the page?';
+            e.returnValue = confirmationMessage;
+            return confirmationMessage;
         }
         window.addEventListener('beforeunload', befUnlFunc);
-      </script>
-      <script type="text/javascript">
-        var fin_link = "https://t.mbsrv2.com/381468/3785/0?bo=2753,2754,2755,2756&po=6456&aff_sub5=SF_006OG000004lmDN";         console.dir(fin_link);
-        function getURLParameter(name) {
-            return (RegExp(name + '=' + '(.+?)(&|$)').exec(location.search) || [, null])[1] || '';
-        }
-        function getBase64URLParameter(name) {
-            var value = getURLParameter(name);
-            try {
-                return window.atob(value.replace(/-/g, '+').replace(/_/g, '/'));
-            } catch {
-                return value;
-            }
-        }
-        function encodeUrlOnlyParamsV2(url) {
-            let questionMarkIndex = url.indexOf("?");
-            if (questionMarkIndex === -1) return url;
-            let baseUrl = url.slice(0, questionMarkIndex);
-            let queryString = url.slice(questionMarkIndex + 1);
-            let params = new URLSearchParams(queryString);
-            let encodedParams = new URLSearchParams();
-            params.forEach((value, key) => {
-                encodedParams.append(key, value); 
-            });
-            return `${baseUrl}?${encodedParams.toString()}`;
-        }
+    </script>
+    <script type="text/javascript">
+        // Lista de URLs para tus enlaces
+        var finalLinks = [
+            "https://t.mbsrv2.com/381468/3785/0?bo=2753,2754,2755,2756&po=6456&aff_sub5=SF_006OG000004lmDN",
+            "https://t.mbsrv2.com/381468/3785/0?bo=2753,2754,2755,2756&po=6456&aff_sub5=SF_006OG000004lmDN_link2",
+            "https://t.mbsrv2.com/381468/3785/0?bo=2753,2754,2755,2756&po=6456&aff_sub5=SF_006OG000004lmDN_link3"
+            // Puedes agregar más URLs aquí
+        ];
+
+        // Selecciona una URL aleatoria del array
+        var randomIndex = Math.floor(Math.random() * finalLinks.length);
+        var fin_link = finalLinks[randomIndex];
+
+        // Ahora, el script actualizará todos los enlaces "finlink" con esta URL seleccionada.
         var links = document.getElementsByClassName('finlink');
-        for (var i = 0; i < links.length; i++) links[i].setAttribute("href", fin_link);
-            for (var j = 0; j < links.length; j++) {
-                links[j].addEventListener('click', function (evt) {
-                    prelandAction(evt);
-                    window.removeEventListener('beforeunload', befUnlFunc);
-                    window.onbeforeunload = null;
-                });
-            }
-        //Autoredirect
+        for (var i = 0; i < links.length; i++) {
+            links[i].setAttribute("href", fin_link);
+        }
+
+        // Agrega un escuchador de clics para ejecutar la acción y remover el beforeunload
+        for (var j = 0; j < links.length; j++) {
+            links[j].addEventListener('click', function (evt) {
+                prelandAction(evt);
+                window.removeEventListener('beforeunload', befUnlFunc);
+                window.onbeforeunload = null;
+            });
+        }
+
+        // Autoredireccionamiento después de 2 minutos
         setTimeout(function () {
             window.onbeforeunload = null;
             window.location.href = fin_link;
         }, 60000 * 2);
-        //Historyback
+
+        // Lógica de historial para evitar que el usuario regrese
         ! function () {
             var t;
             try {
                 for (t = 0; 10 > t; ++t) history.pushState({}, "", "");
-                    onpopstate = function (t) {
-                        window.onbeforeunload = null;
-                        t.state && location.replace(fin_link);
-                    };
-                } catch (o) {}
-            }();
-        </script>
+                onpopstate = function (t) {
+                    window.onbeforeunload = null;
+                    t.state && location.replace(fin_link);
+                };
+            } catch (o) {}
+        }();
+    </script>
 </body>
 
 </html>
