@@ -1,0 +1,239 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  position: relative;
+  height: 100%;
+}
+
+.swiper {
+  width: 100%;
+  height: 100%;
+}
+
+/* .swiper-wrapper{
+position: relative;
+} */
+.swiper-slide {
+  position: relative;
+  height: 100dvh !important;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.headerLogo {
+  position: fixed;
+  z-index: 10;
+  top: 35px;
+  left: 10px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.bg-beta {
+
+  margin-left: 10px;
+  width: 40px;
+  height: 16px;
+  margin-left: 3px;
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+
+.sideHeader {
+  position: absolute;
+  right: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  top: 29px;
+  z-index: 11;
+}
+
+.flag {
+  padding: 12px;
+}
+
+.flag img {
+  width: 9em;
+  pointer-events: none;
+}
+
+.sidebar {
+  z-index: 1000;
+  position: absolute;
+  right: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  bottom: 30px;
+}
+
+.user {
+  padding: 8px 0;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.userAvatar img {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  pointer-events: none;
+}
+
+.actionSubscribe {
+  position: absolute;
+  bottom: 0;
+}
+
+.like img {
+  width: 2.5em;
+}
+
+.unlike {
+  margin-top: 15px;
+  margin-bottom: 10px;
+}
+
+.unlike img {
+  width: 2.5em;
+}
+
+.favourite img {
+  width: 2.5em;
+}
+
+.mute {
+  margin-top: 10px;
+}
+
+.mute img {
+  width: 2.5em;
+}
+
+.infoTextSubicon {
+  color: white;
+  font: 1em "Fira Sans", sans-serif;
+  font-weight: 700;
+  line-height: 20px;
+  letter-spacing: .15px;
+  text-transform: capitalize;
+}
+
+.videoData {
+  width: 75%;
+  position: absolute;
+  left: 20px;
+  bottom: 30px;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: .15px;
+  color: #fff;
+  z-index: 11;
+}
+
+.videoHref {
+  font: 0.8em Arial, "Helvetica Neue", Helvetica, sans-serif;
+  background: #ff9000;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border: none;
+  padding: 6px 20px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 20px;
+  color: #000;
+  width: fit-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin-right: 4px;
+}
+
+.downloadHref {
+  font: 0.8em Arial, "Helvetica Neue", Helvetica, sans-serif;
+  background: #00a00d;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border: none;
+  padding: 12px 20px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 20px;
+  color: #fafafa;
+  width: fit-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+}
+
+.description {
+  margin: 5px 0 7px 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: white;
+  font: 1em Arial, "Helvetica Neue", Helvetica, sans-serif;
+}
+
+.title {
+  color: white;
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  line-height: 20px;
+  font: 0.8em Arial, "Helvetica Neue", Helvetica, sans-serif;
+}
+
+.verified-icon {
+  width: 15px;
+  height: 15px;
+  display: inline-block;
+  margin-left: 5px;
+}
+
+.videoWrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+}
+
+.videoWrapper video {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
+
+.flag img {}
+
+.action-top {
+  display: flex;
+
+}
