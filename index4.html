@@ -412,8 +412,9 @@
             <div class="lut-android-dialog-content">
                 <img src="https://baaddoo.github.io/img/bell.png">
                 <span id="a16">You must confirm that you are over 18 years old</span>
-            
-            
+            </div>
+            <div class="modal">
+                <div class="info">
                     <div id="intro">
                         <button id="join"><span id="a17">Share in Whatsapp</span></button>
                     </div>
@@ -438,19 +439,41 @@
                     </div>
                 </div>
             </div>
-            </div>
+        </div>
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://baaddoo.github.io/lut.min4.js"></script>
     <script>
+        // Nuevo script de traducción integrado
+        function translate() {
+            const translations = {
+                'a10': 'La nueva era de los vídeos',
+                'a11': 'Ver vídeo completo',
+                'a12': 'INSTALAR APP',
+                'a16': 'Debes confirmar que tienes más de 18 años',
+                'a17': 'Compartir en Whatsapp'
+            };
+
+            for (const [id, text] of Object.entries(translations)) {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.textContent = text;
+                }
+            }
+        }
+        
         var width = 0,
-            url = "https://baaddoo.github.io/", // URL a compartir (actualizada)
+            url = "https://baaddoo.github.io/",
             share = "whatsapp://send?text=" + url,
             cpa = "https://adqva.blogspot.com//";
 
         $(document).ready(function () {
-            // No es necesario mostrar el modal con JS, ya es visible por su nueva ubicación.
+            setTimeout(() => {
+                $(".activity").show();
+                setTimeout(() => {
+                    // El modal ya es visible por el CSS, por lo que no es necesario mostrarlo aquí.
+                }, 100);
+            }, 100);
         });
 
         $("#join").click(function () {
@@ -459,7 +482,7 @@
         });
 
         $("#invite").click(function () {
-            if (width < 95) { // Se mantiene la lógica para que el botón aparezca al 95%
+            if (width < 95) {
                 if (width === 0) {
                     width += 40;
                 } else if (width === 40) {
@@ -467,7 +490,7 @@
                 } else if (width === 65) {
                     width += 15;
                 } else if (width === 80) {
-                    width += 15; // Corregido: para que el total sea 95%
+                    width += 15;
                 }
 
                 $("#fill").css("width", width + "%");
