@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WhatsApp Modal</title>
+<style>
+  body {
+    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+    background-color: #f0f2f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .modal-content {
+    background-color: #fff;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 400px;
+    padding: 20px;
+    box-sizing: border-box;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: #333;
+  }
+
+  .modal-header {
+    text-align: right;
+    padding: 0;
+    margin: 0 0 10px 0;
+  }
+
+  .close-btn {
+    font-size: 24px;
+    color: #888;
+    cursor: pointer;
+  }
+
+  .profile-image-container {
+    margin-bottom: 10px;
+  }
+
+  .profile-image {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #fff;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  }
+
+  .group-info {
+    margin-bottom: 10px;
+  }
+
+  .group-name {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .creation-date {
+    font-size: 14px;
+    color: #666;
+    margin: 5px 0 0;
+  }
+
+  .member-count-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    color: #666;
+  }
+
+  .member-icon {
+    font-size: 24px;
+    margin: 0 -5px;
+  }
+
+  .member-count {
+    font-size: 14px;
+    margin-left: 10px;
+  }
+
+  .group-description {
+    font-size: 15px;
+    color: #555;
+    margin-bottom: 15px;
+  }
+
+  .group-description a {
+    color: #007bff;
+    text-decoration: none;
+  }
+
+  .admin-approval {
+    font-size: 13px;
+    color: #888;
+    margin-top: 20px;
+  }
+
+  .modal-footer {
+    margin-top: 20px;
+  }
+
+  .join-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    padding: 12px 24px;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .join-button:hover {
+    background-color: #0056b3;
+  }
+</style>
+</head>
+<body>
+
+<div class="modal-overlay">
+  <div class="modal-content">
+    <div class="modal-header">
+      <span class="close-btn">&times;</span>
+    </div>
+    <div class="modal-body">
+      <div class="profile-image-container">
+        <img src="https://via.placeholder.com/150" alt="Group Profile Picture" class="profile-image">
+      </div>
+      <div class="group-info">
+        <h2 class="group-name">👑SE VALE TODDO👑</h2>
+        <p class="creation-date">Se creó el 13/1/24</p>
+      </div>
+      <div class="member-count-container">
+        <span class="member-icon">👤</span>
+        <span class="member-icon">👤</span>
+        <span class="member-count">+9</span>
+      </div>
+      <p class="group-description">Presentarse con los integrantes ,Guerra de st... <a href="#">Leer más</a></p>
+      <p class="admin-approval">Uno de los administradores debe aprobar tu solicitud.</p>
+    </div>
+    <div class="modal-footer">
+      <button class="join-button">Solicitar unirme</button>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
