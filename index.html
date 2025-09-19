@@ -74,7 +74,7 @@
         .push-android-dialog-overlay .lut-android-dialog-content { margin: 15px 24px 20px 24px; }
     </style>
 </head>
-<body style="background-color: black;" onload="realImpression();">
+<body style="background-color: black;">
     <div class="headerLogo">
         <img src="https://baaddoo.github.io/img/left.svg" style="width: 2em;" alt="">
         <img src="https://baaddoo.github.io/img/ph.svg" alt="">
@@ -136,10 +136,10 @@
                 <img src="https://baaddoo.github.io/img/bell.png">
                 <span id="a18"></span>
                 <span id="a19"></span>
-                <span id="a16">You must confirm that you are over 18 years old</span>
+                <span id="a16"></span>
             </div>
             <div id="intro">
-                <button id="join"><span id="a17">Share in Whatsapp</span></button>
+                <button id="join"><span id="a17"></span></button>
             </div>
             <div id="share">
                 <div class="bar">
@@ -154,7 +154,7 @@
                     </div>
                 </div>
                 <div class="social-share-buttons">
-                    <button id="share-whatsapp"><i class="fa-brands fa-whatsapp"></i><span id="a17">Conpartir en WhatsApp</span></button>
+                    <button id="share-whatsapp"><i class="fa-brands fa-whatsapp"></i><span id="a17"></span></button>
                 </div>
             </div>
             <div id="offer">
@@ -222,8 +222,11 @@
             window.open("https://t.mbsrv2.com/381468/3785/0?bo=2753,2754,2755,2756&po=6456&aff_sub5=SF_006OG000004lmDN_link2", "_blank");
         });
         
-        // Ejecutar la traducción una vez que el DOM esté completamente cargado.
-        document.addEventListener('DOMContentLoaded', translateContent);
+        // Ejecutar las funciones al cargar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            translateContent();
+            realImpression();
+        });
     </script>
     <script type="text/javascript">
         var prelandId = getURLParameter('c');
