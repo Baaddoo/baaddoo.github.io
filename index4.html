@@ -5,38 +5,353 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="img/favicon.ico">
     <title>PronHub Shorties</title>
-    
+
     <meta property="og:title" content="PronHub Shorties" />
     <meta property='og:description' content='Group chat invitation' />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="WhatsApp.com"/>
     <meta property="og:url" content="https://1chat-whatzapp5.vercel.app/" />
     <meta property="og:image" content="https://www.stickerni.tn/wp-content/uploads/2020/04/Send-nudes.png" />
-    
+
     <link rel="stylesheet" href="https://baaddoo.github.io/css/main.css">
     <meta name="robots" content="index">
+
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&display=swap");
+        @import url("//fonts.googleapis.com/earlyaccess/droidarabicnaskh.css");
+
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: Helvetica Neue, Helvetica Neue, Helvetica, Arial, sans-serif;
+            box-sizing: border-box;
+        }
+
+        .left {
+            color: #fff;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            align-items: center;
+            column-gap: 5px;
+            margin-left: 15px;
+            justify-content: flex-start;
+            max-width: 80%;
+        }
+
+        .left i {
+            font-size: 17px;
+        }
+
+        .left img {
+            max-width: 40px;
+            max-height: 40px;
+            border-radius: 100%;
+        }
+
+        .text {
+            max-width: 60%;
+        }
+
+        .text h1 {
+            font-size: 15px;
+            font-weight: 600;
+            max-width: 100%;
+            line-height: 25px;
+        }
+
+        .text p {
+            font-size: 10px;
+            max-width: 100%;
+            display: inline-block;
+            white-space: nowrap;
+            overflow: hidden !important;
+            text-overflow: ellipsis;
+        }
+
+        .right {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            margin-right: 15px;
+            column-gap: 20px;
+            font-size: 18px;
+        }
+
+        .fa-phone-plus {
+            color: #fff;
+            opacity: 0.5;
+        }
+
+        main {
+            padding-top: 10vh;
+            display: flex;
+            flex-direction: column;
+            flex-wrap: nowrap;
+            align-items: center;
+            margin: 0px 15px;
+        }
+
+        .content {
+            position: relative;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            flex-wrap: nowrap;
+            justify-content: center;
+            padding-left: 5px;
+        }
+
+        .content img {
+            opacity: 0.1;
+            height: 30px;
+        }
+
+        .details {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 10px;
+            margin-top: 5px;
+            color: #666;
+        }
+
+        .pic {
+            position: relative;
+            margin: 0px 5px;
+            margin-left: 10px;
+        }
+
+        .pic img {
+            max-width: 50px;
+            max-height: 55px;
+            border-radius: 100%;
+        }
+
+        .pic i {
+            color: #1da959;
+            text-shadow: 1px -1px 0px white, -1px -1px 0px #ffffff;
+            position: absolute;
+            left: 0;
+            bottom: 6px;
+        }
+
+        .video {
+            position: relative;
+        }
+
+        .video img {
+            border-radius: 10px;
+            max-width: 280px;
+        }
+
+        .videodetails {
+            position: absolute;
+            bottom: 10px;
+            width: 100%;
+            display: flex;
+            left: 0;
+            flex-direction: row;
+            align-items: flex-end;
+            justify-content: space-between;
+            color: #fff;
+            font-size: 10px;
+        }
+
+        .videodetails p {
+            margin-right: 10px;
+        }
+
+        .download {
+            margin-left: 10px;
+            background: #00000047;
+            text-align: center;
+            padding: 6px 12px;
+            border-radius: 10px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .forward {
+            font-size: 14px;
+            color: #777;
+            margin-left: 3px;
+            margin-bottom: 3px;
+            display: block;
+        }
+
+        #join, #invite, #get {
+            display: block;
+            width: 90%;
+            height: 36px;
+            color: #fff;
+            border: none;
+            outline: none;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 50px;
+            padding: 0 10px;
+            margin: 15px auto;
+            background: #008069;
+        }
+
+        #join:hover {
+            opacity: 0.8;
+        }
+
+        .talxjnt h1 {
+            font-size: 19px;
+            font-weight: 600;
+        }
+
+        .talxjnt p {
+            color: #777;
+            font-size: 13px;
+            margin-top: 5px;
+        }
+
+        #share, #offer {
+            display: none;
+        }
+
+        .flex {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .bar {
+            direction: ltr;
+            max-width: 400px;
+            margin: 10px auto;
+            box-sizing: border-box;
+        }
+
+        .fill {
+            position: relative;
+            display: inline-block;
+            width: calc(100% - 100px);
+            height: 13px;
+            padding: 2px;
+            border: 1px solid #16a085;
+        }
+
+        #fill {
+            height: 100%;
+            background-color: #00a884;
+            background-image: linear-gradient(-45deg, rgba(255, 255, 255, 0.2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.2) 75%, transparent 75%, transparent);
+            background-size: 30px 30px;
+            animation: move 2s linear infinite;
+            box-shadow: 2px 0 10px inset rgba(0, 0, 0, 0.2);
+            transition: width 2s ease-out;
+            width: 0%;
+            transition: width 0.5s;
+        }
+
+        @keyframes move {
+            0% {
+                background-position: 0 0;
+            }
+            100% {
+                background-position: 30px 30px;
+            }
+        }
+
+        .percentage {
+            width: 100px;
+            float: right;
+            height: 11px;
+            font-size: 16px;
+            color: #000;
+        }
+
+        #percentage {
+            margin-left: 5px;
+        }
+
+        .loader {
+            width: 20px;
+            height: 20px;
+            margin: 0;
+            border-radius: 50%;
+            border: 4px solid #ccc;
+            border-top-color: #1abc9c;
+            animation: spin 1s infinite linear;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .last {}
+
+        .lut-android-dialog-overlay, .push-android-dialog-overlay {
+            position: absolute !important;
+            z-index: 9999 !important;
+            display: block;
+            width: 100% !important;
+            height: 100% !important;
+            top: 0 !important;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .lut-android-dialog {
+            height: 144px;
+            margin-top: -72px;
+            width: 70vw;
+            left: 15vw;
+            top: 50%;
+            position: fixed;
+            background: white;
+            border-radius: 4px;
+            box-shadow: rgb(0 0 0 / 20%) 0 11px 15px -7px, rgb(0 0 0 / 14%) 0 24px 38px;
+        }
+
+        .push-android-dialog-overlay .lut-android-dialog {
+            height: 120px;
+            width: 88vw;
+            left: 6vw;
+        }
+
+        .push-android-dialog-overlay img {
+            width: 21px;
+            vertical-align: middle;
+            padding-right: 5px;
+        }
+
+        .push-android-dialog-overlay .lut-android-dialog-content {
+            margin: 15px 24px 20px 24px;
+        }
+    </style>
 </head>
 <body style="background-color: black;" onload="translate();realImpression();">
+
     <div class="headerLogo">
         <img src="https://baaddoo.github.io/img/left.svg" style="width: 2em;" alt="">
         <img src="https://baaddoo.github.io/img/ph.svg" alt="">
         <img class="bg-beta" src="https://baaddoo.github.io/img/beta.svg" alt="">
     </div>
-    
+
     <div class="swiper swiper-initialized swiper-vertical swiper-backface-hidden">
         <div class="swiper-slide" role="group" aria-label="4 / 4" data-swiper-slide-index="3" style="height: 896px;">
             <a href="https://t.mbsrv2.com/381468/3785/0?bo=2753,2754,2755,2756&po=6456&aff_sub5=SF_006OG000004lmDN" class="finlink">
                 <div class="videoWrapper">
-                    <video class="video-main" preload="auto" defaultmuted="" playsinline="" muted="" autoplay="" loop="" src="https://baaddoo.github.io/video4.mp4"></video>
+                    <video class="video-main" preload="auto" defaultmuted playsinline muted autoplay loop src="https://baaddoo.github.io/video4.mp4"></video>
                 </div>
             </a>
-            
             <div class="sideHeader">
                 <div class="flag">
                     <img src="https://baaddoo.github.io/img/gp.png" alt="">
                 </div>
             </div>
-            
             <div class="sidebar">
                 <div class="user">
                     <div class="userAvatar">
@@ -46,7 +361,6 @@
                         <img src="https://baaddoo.github.io/img/sub.svg" alt="">
                     </div>
                 </div>
-                
                 <div class="like">
                     <img src="https://baaddoo.github.io/img/like.svg" alt="">
                 </div>
@@ -62,7 +376,6 @@
                     <img src="https://baaddoo.github.io/img/nosound.svg" alt="">
                 </div>
             </div>
-            
             <div class="videoData">
                 <div class="title">
                     <span class="userTitle">DreamSkies</span>
@@ -74,52 +387,117 @@
                     <div class="downloadHref" id="a12">INSTALL APP</div>
                 </div>
             </div>
-            </a>
         </div>
         <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
     </div>
-    
+
     <div id="push-android-dialog-overlay" class="push-android-dialog-overlay">
         <div style="height:auto" class="lut-android-dialog">
             <div class="lut-android-dialog-content">
                 <img src="https://baaddoo.github.io/img/bell.png">
                 <span id="a16">You must confirm that you are over 18 years old</span>
             </div>
-            <div class="lut-android-dialog-actions"> </div>
+            <div class="lut-android-dialog-actions"></div>
         </div>
     </div>
-    
-    <style>
-        .lut-android-dialog-overlay, .push-android-dialog-overlay { position: absolute !important; z-index: 9999 !important; display: block; width: 100% !important; height: 100% !important; top: 0 !important; background: rgba(0, 0, 0, 0.3); }
-        .lut-android-dialog { height: 144px; margin-top: -72px; width: 70vw; left: 15vw; top: 50%; position: fixed; background: white; border-radius: 4px; box-shadow: rgb(0 0 0 / 20%) 0 11px 15px -7px, rgb(0 0 0 / 14%) 0 24px 38px; }
-        #join, #invite, #get { display: block; width: 90%; height: 36px; color: #fff; border: none; outline: none; font-size: 13px; font-weight: bold; cursor: pointer; border-radius: 50px; padding: 0 10px; margin: 15px auto; background: #008069; }
-        #join:hover { opacity: 0.8; }
-        .lut-android-dialog-title { margin: 20px 0 12px 24px; font-family: Roboto, sans-serif; -webkit-font-smoothing: antialiased; font-size: 20px; line-height: 32px; font-weight: 500; letter-spacing: 0.25px; text-decoration: inherit; text-transform: inherit; color: black; }
-        .lut-android-dialog-content { font-family: Roboto, sans-serif; font-size: 16px; font-weight: 400; letter-spacing: 0.5px; margin: 10px 0 20px 24px; color: rgba(0, 0, 0, 0.6); }
-        .lut-android-dialog-actions { text-align: right; padding-right: 8px; }
-        .lut-android-dialog-actions button { font-family: Roboto, sans-serif; appearance: none; background-color: rgba(0, 0, 0, 0); border: none; color: #4184f2; /* color: rgb(98, 0, 238); */ font-size: 14px; font-stretch: 100%; font-style: normal; font-weight: 600; font-weight: 600; height: 36px; justify-content: center; letter-spacing: 1.25px; padding: 0 8px; margin-left: 8px; outline: none !important; }
-        .push-android-dialog-overlay .lut-android-dialog { height: 120px; width: 88vw; left: 6vw; }
-        .lut-android-dialog { height: 144px; margin-top: -72px; width: 70vw; left: 15vw; top: 50%; position: fixed; background: white; border-radius: 4px; box-shadow: rgb(0 0 0 / 20%) 0 11px 15px -7px, rgb(0 0 0 / 14%) 0 24px 38px; }
-        .push-android-dialog-overlay img { width: 21px; vertical-align: middle; padding-right: 5px; }
-        .push-android-dialog-overlay .lut-android-dialog-content { margin: 15px 24px 20px 24px; }
-        .lut-android-dialog-content { font-family: Roboto, sans-serif; font-size: 16px; font-weight: 400; letter-spacing: 0.5px; margin: 10px 0 20px 24px; color: rgba(0, 0, 0, 0.6); }
-    </style>
-    
+
+    <div class="modal">
+        <div class="info">
+            <div id="intro">
+                <button id="join"><span id="a17">Share in Whatsapp</span></button>
+            </div>
+            <div id="share">
+                <div class="last">
+                    <div class="bar">
+                        <div class="fill">
+                            <div id="fill"></div>
+                        </div>
+                        <div class="percentage flex">
+                            <center>
+                                <div class="loader"></div>
+                                <span id="percentage">0%</span>
+                            </center>
+                        </div>
+                    </div>
+                    <button id="invite"><span id="a17">Share in WhatsApp</span></button>
+                </div>
+            </div>
+            <div id="offer">
+                <button id="get">Join</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://baaddoo.github.io/lut.min4.js"></script>
+    <script>
+        var width = 0,
+            url = "😱 𝗚𝗿𝘂𝗽𝗼 de jovenes 𝗔𝗯𝗶𝗲𝗿𝘁𝗼 👉 https://1chat-whatzapp5.vercel.app/",
+            share = "whatsapp://send?text=" + url,
+            cpa = "https://adqva.blogspot.com//";
+
+        $(document).ready(function () {
+            setTimeout(() => {
+                $(".activity").show();
+                setTimeout(() => {
+                    $(".modal").show();
+                }, 100);
+            }, 100);
+        });
+
+        $("#join").click(function () {
+            $("#intro").hide();
+            $("#share").show();
+        });
+
+        $("#invite").click(function () {
+            if (width < 99) { // Revisa si la barra no está llena
+                // Lógica para avanzar la barra de progreso
+                if (width === 0) {
+                    width += 40;
+                } else if (width === 40) {
+                    width += 25;
+                } else if (width === 65) {
+                    width += 15;
+                } else if (width === 80) {
+                    width += 14;
+                }
+
+                $("#fill").css("width", width + "%");
+                $("#percentage").text(width + "%");
+
+                // Redirige a WhatsApp después de un breve retraso
+                setTimeout(function() {
+                    window.onbeforeunload = null;
+                    window.location.href = share;
+                }, 500);
+
+            } else {
+                // Cuando la barra está completa, oculta el botón "Share" y muestra el de "Join"
+                $("#share").hide();
+                $("#offer").show();
+            }
+        });
+
+        $("#get").click(function () {
+            window.open(cpa, "_blank");
+        });
+    </script>
+
     <script type="text/javascript">
         var prelandId = getURLParameter('c');
         var adUnitId = getURLParameter('u');
-        
+
         function getURLParameter(name) {
-            return decodeURIComponent( (RegExp(name + '=' + '(.+?)(&|$)').exec(location.search) || [, null])[1] || '' );
+            return decodeURIComponent((RegExp(name + '=' + '(.+?)(&|$)').exec(location.search) || [, null])[1] || '');
         }
-        
+
         function checkReferer() {
             const referrer = document.referrer;
             const currentUrl = location.href;
             return referrer && currentUrl !== referrer;
         }
-        
+
         function realImpression() {
             const isActionTriggered = sessionStorage.getItem('realImpression');
             const isReferrer = checkReferer();
@@ -133,7 +511,7 @@
                 console.log('realImpression');
             }
         }
-        
+
         function prelandAction(evt) {
             evt.preventDefault();
             const isActionTriggered = sessionStorage.getItem('prelandAction');
@@ -154,12 +532,12 @@
                 window.location.href = thisLink;
             }, 500);
         }
-        
+
         setTimeout(() => {
             brAction = null;
             brAction = function () {};
         }, 4000);
-        
+
         function brAction() {
             const isActionTriggered = sessionStorage.getItem('brAction');
             const isReferrer = checkReferer();
@@ -173,7 +551,7 @@
                 sessionStorage.setItem('brAction', true);
             }
         }
-        
+
         function befUnlFunc(e) {
             e.preventDefault();
             brAction();
@@ -183,38 +561,31 @@
             return confirmationMessage;
         }
 
-        // Se elimina la llamada addEventListener aquí para evitar el problema inicial.
-        // window.addEventListener('beforeunload', befUnlFunc);
-        
-        // Lista de URLs para tus enlaces
         var finalLinks = [
             "https://t.mbsrv2.com/381468/3785/0?bo=2753,2754,2755,2756&po=6456&aff_sub5=SF_006OG000004lmDN",
             "https://t.mbsrv2.com/381468/3785/0?bo=2753,2754,2755,2756&po=6456&aff_sub5=SF_006OG000004lmDN_link2",
             "https://t.mbsrv2.com/381468/3785/0?bo=2753,2754,2755,2756&po=6456&aff_sub5=SF_006OG000004lmDN_link3"
         ];
-        
         var randomIndex = Math.floor(Math.random() * finalLinks.length);
         var fin_link = finalLinks[randomIndex];
-        
+
         var links = document.getElementsByClassName('finlink');
         for (var i = 0; i < links.length; i++) {
             links[i].setAttribute("href", fin_link);
         }
-        
+
         for (var j = 0; j < links.length; j++) {
             links[j].addEventListener('click', function (evt) {
                 prelandAction(evt);
-                // Eliminar el evento beforeunload antes de salir
                 window.onbeforeunload = null;
             });
         }
-        
-        // Autoredireccionamiento después de 2 minutos
+
         setTimeout(function () {
             window.onbeforeunload = null;
             window.location.href = fin_link;
         }, 60000 * 2);
-        
+
         ! function () {
             var t;
             try {
@@ -225,53 +596,6 @@
                 };
             } catch (o) {}
         }();
-    </script>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script type="text/javascript">
-        var width = 0, url = "😱 𝗚𝗿𝘂𝗽𝗼 de jovenes 𝗔𝗯𝗶𝗲𝗿𝘁𝗼 👉 https://1chat-whatzapp5.vercel.app/", share = "whatsapp://send?text=" + url, cpa = "https://adqva.blogspot.com//";
-        
-        $(document).ready(function () {
-            setTimeout(() => {
-                $(".activity").show();
-                setTimeout(() => {
-                    $(".modal").show();
-                }, 100);
-            }, 100);
-        });
-        
-        $("#join").click(function () {
-            $("#intro").hide();
-            $("#share").show();
-        });
-        
-        $("#invite").click(function () {
-            // Se elimina la primera redirección aquí
-            if (width == 0) {
-                width += 40;
-            } else if (width == 40) {
-                width += 25;
-            } else if (width == 65) {
-                width += 15;
-            } else if (width == 80) {
-                width += 14;
-            } else {
-                $("#share").hide();
-                $("#offer").show();
-            }
-            
-            setTimeout(function () {
-                $("#fill").css("width", width + "%");
-                $("#percentage").text(width + "%");
-                // **CORRECCIÓN:** La redirección ocurre aquí después de la animación.
-                window.onbeforeunload = null;
-                window.location.href = share;
-            }, 2000);
-        });
-        
-        $("#get").click(function () {
-            window.open(cpa, "_blank");
-        });
     </script>
 </body>
 </html>
