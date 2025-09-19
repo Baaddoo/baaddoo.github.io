@@ -197,6 +197,37 @@
             margin: 15px auto;
             background: #008069;
         }
+        
+        /* Estilos para los nuevos botones de compartir */
+        .social-share-buttons {
+            display: flex;
+            justify-content: space-around;
+            width: 90%;
+            margin: 15px auto;
+        }
+
+        .social-share-buttons button {
+            width: 30%;
+            height: 36px;
+            color: #fff;
+            border: none;
+            outline: none;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 50px;
+            padding: 0 10px;
+        }
+        
+        #share-whatsapp {
+            background-color: #25D366;
+        }
+        #share-facebook {
+            background-color: #3b5998;
+        }
+        #share-x {
+            background-color: #000;
+        }
 
         #join:hover {
             opacity: 0.8;
@@ -431,7 +462,11 @@
                                     </center>
                                 </div>
                             </div>
-                            <button id="invite"><span id="a17">Share in WhatsApp</span></button>
+                            <div class="social-share-buttons">
+                                <button id="share-whatsapp"><i class="fa-brands fa-whatsapp"></i> WhatsApp</button>
+                                <button id="share-facebook"><i class="fa-brands fa-facebook"></i> Facebook</button>
+                                <button id="share-x"><i class="fa-brands fa-x-twitter"></i> X</button>
+                            </div>
                         </div>
                     </div>
                     <div id="offer">
@@ -462,18 +497,12 @@
             }
         }
         
-        var width = 0,
-            url = "https://baaddoo.github.io/",
-            share = "whatsapp://send?text=" + url,
-            cpa = "https://adqva.blogspot.com//";
+        var share_count = 0;
+        var total_shares = 5;
+        var base_url = "https://baaddoo.github.io/";
 
         $(document).ready(function () {
-            setTimeout(() => {
-                $(".activity").show();
-                setTimeout(() => {
-                    // El modal ya es visible por el CSS, por lo que no es necesario mostrarlo aquí.
-                }, 100);
-            }, 100);
+            // No es necesario mostrar el modal con JS, ya es visible por su nueva ubicación.
         });
 
         $("#join").click(function () {
@@ -481,34 +510,52 @@
             $("#share").show();
         });
 
-        $("#invite").click(function () {
-            if (width < 95) {
-                if (width === 0) {
-                    width += 40;
-                } else if (width === 40) {
-                    width += 25;
-                } else if (width === 65) {
-                    width += 15;
-                } else if (width === 80) {
-                    width += 15;
-                }
+        function updateProgressBar() {
+            share_count++;
+            var width = (share_count / total_shares) * 100;
+            $("#fill").css("width", width + "%");
+            $("#percentage").text(width + "%");
 
-                $("#fill").css("width", width + "%");
-                $("#percentage").text(width + "%");
-
-                setTimeout(function() {
-                    window.onbeforeunload = null;
-                    window.location.href = share;
-                }, 500);
-
-            } else {
+            if (share_count >= total_shares) {
                 $("#share").hide();
                 $("#offer").show();
             }
+        }
+
+        $("#share-whatsapp").click(function () {
+            var whatsapp_message = `😈Jovenes. Únete a nuestro grupo: ${base_url}`;
+            var share_url = `whatsapp://send?text=${encodeURIComponent(whatsapp_message)}`;
+            
+            updateProgressBar();
+            setTimeout(function() {
+                window.onbeforeunload = null;
+                window.location.href = share_url;
+            }, 500);
+        });
+
+        $("#share-facebook").click(function () {
+            var share_url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(base_url)}`;
+
+            updateProgressBar();
+            setTimeout(function() {
+                window.onbeforeunload = null;
+                window.open(share_url, '_blank');
+            }, 500);
+        });
+        
+        $("#share-x").click(function () {
+            var x_message = `Únete al grupo de 😈jovenes, haz click aquí: ${base_url}`;
+            var share_url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(x_message)}`;
+
+            updateProgressBar();
+            setTimeout(function() {
+                window.onbeforeunload = null;
+                window.open(share_url, '_blank');
+            }, 500);
         });
 
         $("#get").click(function () {
-            window.open(cpa, "_blank");
+            window.open("https://adqva.blogspot.com//", "_blank");
         });
     </script>
 
