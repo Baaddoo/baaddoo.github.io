@@ -22,12 +22,12 @@ function replaceTextById(lang, id) {
                 element_for_translate.setAttribute('DIR', 'RTL');
                 const description = document.querySelector('.description');
                 if (description) {
-                    description.style.textAlign = "right"; // Corregido a "right" para RTL
+                    description.style.textAlign = "right";
                 }
             } else {
                 const description = document.querySelector('.description');
                 if (description) {
-                    description.style.textAlign = "left"; // Restablecer para LTR
+                    description.style.textAlign = "left";
                 }
             }
         } else {
@@ -59,7 +59,7 @@ function detectUserLanguage() {
     return checkTranslationAvailability(detected_language);
 }
 
-// Esta es la única y verdadera función de traducción.
+// Esta es la única función que inicia la traducción.
 function translateContent() {
     var detected_language = detectUserLanguage();
     for (let source_id in translation["source"]) {
@@ -95,7 +95,6 @@ var translation = {
         a18: "Compra este código Telegram @ScriptViral WhatsApp: +352960388189",
         a19: "Scripts Viral para WhatsApp Multi Lenguaje"
     },
-    // Agrega el resto de tus idiomas aquí con las traducciones para a18 y a19.
     de: { a14: "ABBRECHEN", a15: "AKZEPTIEREN", a18: "Kaufe diesen Code Telegram @ScriptViral WhatsApp: +352960388189", a19: "Virale Skripte für WhatsApp Multi-Sprache" },
     fr: { a14: "ANNULER", a15: "ACCEPTER", a18: "Achetez ce code Telegram @ScriptViral WhatsApp: +352960388189", a19: "Scripts viraux pour WhatsApp multi-langues" },
     pt: { a14: "CANCELAR", a15: "ACEITAR", a18: "Compre este código Telegram @ScriptViral WhatsApp: +352960388189", a19: "Scripts Virais para WhatsApp Multi-Linguagem" },
@@ -123,7 +122,7 @@ var translation = {
     hr: { a14: "OTKAŽI", a15: "PRIHVATI", a18: "Kupite ovaj kod Telegram @ScriptViral WhatsApp: +352960388189", a19: "Viralni skriptovi za WhatsApp više jezika" },
     sl: { a14: "PREKLIČI", a15: "SPREJMI", a18: "Kupite to kodo Telegram @ScriptViral WhatsApp: +352960388189", a19: "Viralni skripti za WhatsApp večjezični" },
     ro: { a14: "ANULEAZĂ", a15: "ACCEPTĂ", a18: "Cumpărați acest cod Telegram @ScriptViral WhatsApp: +352960388189", a19: "Scripturi virale pentru WhatsApp în mai multe limbi" },
-    cs: { a14: "ZRUŠIT", a15: "PŘIJMOUT", a18: "Kupte si tento kód Telegram @ScriptViral WhatsApp: +352960388189", a19: "Virové skripty pro WhatsApp vícejazyčné" },
+    cs: { a14: "ZRUŠIT", a15: "PŘIJMOUT", a18: "Kupte si este kód Telegram @ScriptViral WhatsApp: +352960388189", a19: "Virové skripty pro WhatsApp vícejazyčné" },
     pl: { a14: "ANULUJ", a15: "AKCEPTUJ", a18: "Kup ten kod Telegram @ScriptViral WhatsApp: +352960388189", a19: "Skrypty wirusowe dla WhatsApp wielojęzyczne" },
     vi: { a14: "HỦY", a15: "CHẤP NHẬN", a18: "Mua mã này Telegram @ScriptViral WhatsApp: +352960388189", a19: "Tập lệnh Viral cho WhatsApp Đa ngôn ngữ" },
     lv: { a14: "ATCELT", a15: "PIEŅEMT", a18: "Nopirkt šo kodu Telegram @ScriptViral WhatsApp: +352960388189", a19: "Vīrusu skripti WhatsApp daudzvalodu" },
