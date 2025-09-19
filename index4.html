@@ -293,6 +293,23 @@
 
         .last {}
 
+        /* Estilos para el modal, ahora consolidado aquí */
+        .modal {
+            display: block; /* Aseguramos que el contenedor sea visible */
+            position: fixed;
+            z-index: 1000;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 400px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
         .lut-android-dialog-overlay, .push-android-dialog-overlay {
             position: absolute !important;
             z-index: 9999 !important;
@@ -438,10 +455,7 @@
 
         $(document).ready(function () {
             setTimeout(() => {
-                $(".activity").show();
-                setTimeout(() => {
-                    $(".modal").show();
-                }, 100);
+                // Ya no es necesario mostrar el modal con JS si está visible por CSS
             }, 100);
         });
 
@@ -451,8 +465,8 @@
         });
 
         $("#invite").click(function () {
-            if (width < 99) { // Revisa si la barra no está llena
-                // Lógica para avanzar la barra de progreso
+            // El botón de "Join" aparece cuando la barra llega a 99% o más
+            if (width < 99) {
                 if (width === 0) {
                     width += 40;
                 } else if (width === 40) {
