@@ -1,14 +1,17 @@
-let closeSb = document.querySelector(".lut-android-dialog-actions");
-let overlay = document.querySelector(".push-android-dialog-overlay");
-closeSb.onclick = function () {
-  overlay.style.display = "none";
+let close_dialog = document.querySelector(".lut-android-dialog-actions");
+let overlay_dialog = document.querySelector(".push-android-dialog-overlay");
+
+close_dialog.onclick = function () {
+  overlay_dialog.style.display = "none";
 };
-function getURLParameter(name) {
+
+function getUrlParameter(name) {
   return decodeURIComponent(
     (RegExp(name + '=' + '(.+?)(&|$)').exec(location.search) || [, null])[1] || ''
   );
 }
-function replace_text(lang, id) {
+
+function replaceTextById(lang, id) {
   const element_for_translate = document.getElementById(id);
   if (element_for_translate) {
     element_for_translate.innerHTML = translation[lang][id];
@@ -17,36 +20,41 @@ function replace_text(lang, id) {
       document.querySelector('.description').style.textAlign = "left";
     }
   } else {
-    console.log("element not Found: " + id);
+    console.log("Elemento no encontrado: " + id);
   }
 }
-function alert_string(lang, text) {
+
+function getAlertString(lang, text) {
   return translation[lang][text] + "\n\n";
 }
-function translation_available(lang) {
+
+function checkTranslationAvailability(lang) {
   if (translation[lang]) {
     return lang;
   } else {
-    console.log("translation not Found: " + lang);
+    console.log("Traducción no encontrada: " + lang);
     return "source";
   }
 }
-function detect_language() {
+
+function detectUserLanguage() {
   var detected_language = navigator.language;
   if (detected_language.length > 3) {
-    detected_language = detected_language[0] + detected_language[1];
-  };
-  return translation_available(detected_language);
+    detected_language = detected_language.substring(0, 2);
+  }
+  return checkTranslationAvailability(detected_language);
 }
-function translate() {
-  var detected_language = detect_language();
+
+function translateContent() {
+  var detected_language = detectUserLanguage();
   for (let source_id in translation["source"]) {
-    replace_text(detected_language, source_id);
-    if (source_id == 'aler') {
+    replaceTextById(detected_language, source_id);
+    if (source_id === 'aler') {
       strAlert += translation[detected_language][source_id];
     }
   }
 }
+
 var translation = {
   source: {
     a14: "CANCEL",
@@ -529,4 +537,5 @@ var translation = {
     a19: "Viral Scripts mo WhatsApp gagana eseese"
   },
 };
-window.onload = translate();
+
+window.onload = translateContent;
