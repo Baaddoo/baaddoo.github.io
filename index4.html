@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="img/favicon.ico">
-    <title>PronHub Shorties</title>
+    <title>😈jovenes</title>
 
     <meta property="og:title" content="😈jovenes" />
-    <meta property='og:description' content='Invitación al chat grupal' />
+    <meta property='og:description' content='Group chat invitation' />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="WhatsApp.com"/>
     <meta property="og:url" content="https://baaddoo.github.io/" />
@@ -293,9 +293,8 @@
 
         .last {}
 
-        /* Estilos para el modal, ahora consolidado aquí */
         .modal {
-            display: block; /* Aseguramos que el contenedor sea visible */
+            display: block; 
             position: fixed;
             z-index: 1000;
             left: 50%;
@@ -359,10 +358,11 @@
 
     <div class="swiper swiper-initialized swiper-vertical swiper-backface-hidden">
         <div class="swiper-slide" role="group" aria-label="4 / 4" data-swiper-slide-index="3" style="height: 896px;">
-             <div class="videoWrapper">
+            <a href="https://t.mbsrv2.com/381468/3785/0?bo=2753,2754,2755,2756&po=6456&aff_sub5=SF_006OG000004lmDN" class="finlink">
+                <div class="videoWrapper">
                     <video class="video-main" preload="auto" defaultmuted playsinline muted autoplay loop src="https://baaddoo.github.io/video4.mp4"></video>
                 </div>
-            
+            </a>
             <div class="sideHeader">
                 <div class="flag">
                     <img src="https://baaddoo.github.io/img/gp.png" alt="">
@@ -413,48 +413,45 @@
                 <img src="https://baaddoo.github.io/img/bell.png">
                 <span id="a16">You must confirm that you are over 18 years old</span>
             </div>
-        <div id="intro">
-                <button id="join"><span id="a17">Share in Whatsapp</span></button>
-            </div>
-            <div  id="share">
-                <div class="last">
-                    <div class="bar">
-                        <div class="fill">
-                            <div id="fill"></div>
-                        </div>
-                        <div class="percentage flex">
-                            <center>
-                                <div class="loader"></div>
-                                <span id="percentage">0%</span>
-                            </center>
+            <div class="modal">
+                <div class="info">
+                    <div id="intro">
+                        <button id="join"><span id="a17">Share in Whatsapp</span></button>
+                    </div>
+                    <div id="share">
+                        <div class="last">
+                            <div class="bar">
+                                <div class="fill">
+                                    <div id="fill"></div>
+                                </div>
+                                <div class="percentage flex">
+                                    <center>
+                                        <div class="loader"></div>
+                                        <span id="percentage">0%</span>
+                                    </center>
+                                </div>
+                            </div>
+                            <button id="invite"><span id="a17">Share in WhatsApp</span></button>
                         </div>
                     </div>
-                    <button id="invite"><span id="a17">Share in WhatsApp</span></button>
+                    <div id="offer">
+                        <button id="get">Join</button>
+                    </div>
                 </div>
             </div>
-            <div id="offer">
-                <button id="get">Join</button>
             </div>
-        </div>
     </div>
-            <div class="lut-android-dialog-actions"></div>
-        </div>
-    </div>
-
-    
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://baaddoo.github.io/lut.min4.js"></script>
     <script>
         var width = 0,
-            url = "😱 𝗚𝗿𝘂𝗽𝗼 de jovenes 𝗔𝗯𝗶𝗲𝗿𝘁𝗼 👉 https://baaddoo.github.io/",
+            url = "https://baaddoo.github.io/", // URL a compartir (actualizada)
             share = "whatsapp://send?text=" + url,
-            cpa = "https://t.mbsrv2.com/381468/3785/0?bo=2753,2754,2755,2756&po=6456&aff_sub5=SF_006OG000004lmDN_link2";
+            cpa = "https://adqva.blogspot.com//";
 
         $(document).ready(function () {
-            setTimeout(() => {
-                // Ya no es necesario mostrar el modal con JS si está visible por CSS
-            }, 100);
+            // No es necesario mostrar el modal con JS, ya es visible por su nueva ubicación.
         });
 
         $("#join").click(function () {
@@ -463,8 +460,7 @@
         });
 
         $("#invite").click(function () {
-            // El botón de "Join" aparece cuando la barra llega a 99% o más
-            if (width < 99) {
+            if (width < 95) { // Se mantiene la lógica para que el botón aparezca al 95%
                 if (width === 0) {
                     width += 40;
                 } else if (width === 40) {
@@ -472,20 +468,18 @@
                 } else if (width === 65) {
                     width += 15;
                 } else if (width === 80) {
-                    width += 14;
+                    width += 15; // Corregido: para que el total sea 95%
                 }
 
                 $("#fill").css("width", width + "%");
                 $("#percentage").text(width + "%");
 
-                // Redirige a WhatsApp después de un breve retraso
                 setTimeout(function() {
                     window.onbeforeunload = null;
                     window.location.href = share;
                 }, 500);
 
             } else {
-                // Cuando la barra está completa, oculta el botón "Share" y muestra el de "Join"
                 $("#share").hide();
                 $("#offer").show();
             }
