@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global News - Breaking Headlines</title>
+    <meta name="description" content="The latest news and headlines from the world's most important media outlets in one place. Stay informed with our real-time news aggregator.">
+    <meta name="keywords" content="news, headlines, breaking news, world news, media, press, rss, news aggregator">
+    <meta name="author" content="Your Name or Brand">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2960719343978390"
+     crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-3P34ST6ZVZ"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-3P34ST6ZVZ');
+    </script>
+    <script type="application/ld+json" id="schema-markup"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #1a73e8;
+            border-bottom: 3px solid #e0e0e0;
+            padding-bottom: 10px;
+        }
+        #news-list {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            gap: 20px;
+        }
+        .news-item {
+            display: flex;
+            background-color: #fafafa;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.2s;
+            cursor: pointer;
+        }
+        .news-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .news-image-container {
+            width: 150px;
+            height: 150px;
+            flex-shrink: 0;
+            border-right: 1px solid #e0e0e0;
+            overflow: hidden;
+        }
+        .news-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .news-content {
+            padding: 15px;
+            flex-grow: 1;
+        }
+        .news-content h3 {
+            margin-top: 0;
+            font-size: 1.2em;
+            color: #333;
+        }
+        .news-content a {
+            text-decoration: none;
+            color: #1a73e8;
+            font-weight: bold;
+        }
+        .news-content p {
+            font-size: 0.9em;
+            color: #555;
+            line-height: 1.4;
+            margin: 5px 0 10px;
+        }
+        .news-source {
+            font-size: 0.8em;
+            color: #888;
+        }
+        .loader {
+            text-align: center;
+            padding: 50px;
+            font-size: 1.2em;
+            color: #666;
+        }
+        #debug-log {
+            background-color: #fce8e8;
+            border: 1px solid #d93025;
+            color: #d93025;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        /* Modal Styles (News) */
+        .popup-container {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding-top: 60px;
+        }
+        .popup-content {
+            background-color: #fff;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 10px;
+            position: relative;
+            text-align: center;
+        }
+        .close-btn {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+            right: 20px;
+        }
+        .close-btn:hover,
+        .close-btn:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .popup-content h2 {
+            font-size: 1.5em;
+            color: #1a73e8;
+        }
+        .popup-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        .popup-content p {
+            text-align: left;
+            font-size: 1em;
+            line-height: 1.5;
+        }
+        .popup-content a {
+            display: inline-block;
+            background-color: #1a73e8;
+            color: white;
+            padding: 10px 20px;
+            margin-top: 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .adsense-text {
+            font-size: 0.8em;
+            color: #888;
+            margin-top: 20px;
+        }
+        .hidden {
+            display: none;
+        }
+        .footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            font-size: 0.9em;
+            color: #777;
+            border-top: 1px solid #e0e0e0;
+        }
+        .footer a {
+            color: #1a73e8;
+            text-decoration: none;
+            margin: 0 10px;
+            cursor: pointer;
+        }
+        .footer-modal-content {
+            text-align: left;
+        }
+        .footer-modal-content h2 {
+            text-align: center;
+        }
+        
+        /* Cookie Consent Banner */
+        #cookie-banner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #fff;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            z-index: 2000;
+        }
+        #cookie-banner p {
+            margin: 0;
+            display: inline-block;
+            vertical-align: middle;
+            font-size: 0.9em;
+        }
+        #cookie-buttons {
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 20px;
+        }
+        #cookie-accept, #cookie-decline {
+            background-color: #1a73e8;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 0 5px;
+            font-size: 0.9em;
+        }
+        #cookie-decline {
+            background-color: #ccc;
+            color: #333;
+        }
+        .ad-container {
+            text-align: center;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            margin: 20px 0;
+        }
+        .ad-container p {
+            font-weight: bold;
+            color: #333;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            .news-item {
+                flex-direction: column;
+            }
+            .news-image-container {
+                width: 100%;
+                height: 200px;
+                border-right: none;
+                border-bottom: 1px solid #e0e0e0;
+            }
+            .news-content {
+                padding: 10px;
+            }
+            .popup-content {
+                width: 90%;
+            }
+            #cookie-banner p, #cookie-buttons {
+                display: block;
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Latest News from Selected Media</h1>
+        <div id="debug-log">
+            <strong>Load Errors:</strong>
+            <ul id="error-list"></ul>
+        </div>
+        <div id="loader" class="loader">Loading news...</div>
+        <ul id="news-list"></ul>
+    </div>
+
+    <div id="popup-container" class="popup-container">
+        <div class="popup-content">
+            <span class="close-btn">&times;</span>
+            <h2 id="popup-title"></h2>
+            <img id="popup-image" src="" alt="News image" class="hidden">
+            <p id="popup-description"></p>
+            <a id="popup-link" href="#" target="_blank" rel="noopener noreferrer">Go to full article</a>
+            
+            <div id="adsense-container">
+                <p class="adsense-text">Advertisement</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="legal-modal-container" class="popup-container">
+        <div class="popup-content footer-modal-content">
+            <span class="close-btn">&times;</span>
+            <h2 id="legal-modal-title"></h2>
+            <div id="legal-modal-text"></div>
+        </div>
+    </div>
+
+    <div id="cookie-banner" style="display: none;">
+        <p>This website uses cookies to ensure you get the best experience. By clicking "Accept", you agree to our use of cookies as described in our <span id="cookie-policy-link-banner" style="text-decoration: underline; cursor: pointer;">Cookie Policy</span>.</p>
+        <div id="cookie-buttons">
+            <button id="cookie-accept">Accept</button>
+            <button id="cookie-decline">Decline</button>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p><strong>Disclaimer:</strong> This is a news aggregator website. All content and headlines are sourced from publicly available RSS feeds of various media outlets. We do not own the rights to the articles. The original content belongs to their respective owners.</p>
+        <p>
+            <a href="#" class="legal-link" data-content="terms">Terms and Conditions</a> |
+            <a href="#" class="legal-link" data-content="privacy">Privacy Policy</a> |
+            <a href="#" class="legal-link" data-content="cookies">Cookie Policy</a>
+        </p>
+        <p>&copy; 2024 Your Website. All Rights Reserved.</p>
+    </footer>
+
+    <div id="terms-content" class="hidden">
+        <h2>Terms and Conditions</h2>
+        <p><strong>1. Introduction</strong></p>
+        <p>Welcome to [Your Website Name]. These terms and conditions govern your use of our website. By accessing or using this site, you agree to be bound by these terms. If you do not agree with any part of these terms, you must not use our website.</p>
+        <p><strong>2. Intellectual Property</strong></p>
+        <p>All content displayed on this website, including articles, images, and headlines, are sourced from external RSS feeds. We do not claim ownership of this content. The intellectual property rights to the original content belong to the respective news media outlets. You may not copy, reproduce, or distribute the content without the express permission of the original owner.</p>
+        <p><strong>3. Use of the Website</strong></p>
+        <p>This website is a news aggregator for personal, non-commercial use. You agree not to use the website for any unlawful purpose or in any way that could harm, disable, or overburden the site.</p>
+        <p><strong>4. Disclaimer of Warranties</strong></p>
+        <p>This website is provided on an "as is" and "as available" basis. We do not make any warranties, express or implied, regarding the accuracy, reliability, or completeness of the content. We are not responsible for any errors or omissions, or for any loss or damage of any kind incurred as a result of using the website.</p>
+        <p><strong>5. Changes to Terms</strong></p>
+        <p>We reserve the right to modify these terms and conditions at any time. Your continued use of the website after any such changes constitutes your acceptance of the new terms.</p>
+    </div>
+
+    <div id="privacy-content" class="hidden">
+        <h2>Privacy Policy</h2>
+        <p><strong>1. Information We Collect</strong></p>
+        <p>We collect minimal data to operate this news aggregator. We may collect non-personally identifiable information such as IP addresses, browser types, and usage data to improve our services and analyze trends. We do not collect personal information like names, email addresses, or phone numbers unless you voluntarily provide them (e.g., via a contact form).</p>
+        <p><strong>2. How We Use Information</strong></p>
+        <p>The information we collect is used to:</p>
+        <ul>
+            <li>Analyze website traffic and usage patterns.</li>
+            <li>Improve the functionality and content of the site.</li>
+            <li>Ensure the security of our website.</li>
+        </ul>
+        <p><strong>3. Data Sharing</strong></p>
+        <p>We do not sell, trade, or otherwise transfer your personally identifiable information to outside parties. We may share non-personally identifiable visitor information with partners for analytics or advertising purposes.</p>
+        <p><strong>4. Third-Party Links</strong></p>
+        <p>This website contains links to third-party websites (e.g., the original news sources). We have no control over the privacy practices of these sites and are not responsible for their content or policies. We encourage you to review the privacy policies of any third-party sites you visit.</p>
+        <p><strong>5. Security</strong></p>
+        <p>We take reasonable measures to protect the information we collect from unauthorized access, disclosure, or destruction. However, no internet transmission is completely secure, and we cannot guarantee absolute security.</p>
+    </div>
+
+    <div id="cookies-content" class="hidden">
+        <h2>Cookie Policy</h2>
+        <p>This website uses cookies to enhance your experience. A cookie is a small file placed on your device to remember information about your visit. We use cookies for the following purposes:</p>
+        <ul>
+            <li><strong>Essential Cookies:</strong> These cookies are necessary for the website to function correctly.</li>
+            <li><strong>Analytics Cookies:</strong> We use Google Analytics to collect data on how visitors use our site. This helps us understand which content is popular and how we can improve.</li>
+            <li><strong>Advertising Cookies:</strong> If you accept, we may use cookies to serve personalized ads through third-party ad networks (like Google AdSense).</li>
+        </ul>
+        <p>By using this website, you consent to our use of cookies in accordance with this policy. You can manage your cookie preferences through your browser settings.</p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const newsList = document.getElementById('news-list');
+            const loader = document.getElementById('loader');
+            const debugLog = document.getElementById('debug-log');
+            const errorList = document.getElementById('error-list');
+            const adsenseContainer = document.getElementById('adsense-container');
+            const schemaMarkup = document.getElementById('schema-markup');
+
+            // News Modal Elements
+            const popupContainer = document.getElementById('popup-container');
+            const newsCloseBtn = popupContainer.querySelector('.close-btn');
+            const popupTitle = document.getElementById('popup-title');
+            const popupImage = document.getElementById('popup-image');
+            const popupDescription = document.getElementById('popup-description');
+            const popupLink = document.getElementById('popup-link');
+
+            // Legal Modal Elements
+            const legalModalContainer = document.getElementById('legal-modal-container');
+            const legalCloseBtn = legalModalContainer.querySelector('.close-btn');
+            const legalModalTitle = document.getElementById('legal-modal-title');
+            const legalModalText = document.getElementById('legal-modal-text');
+            const legalLinks = document.querySelectorAll('.legal-link');
+            const cookiePolicyLinkBanner = document.getElementById('cookie-policy-link-banner');
+
+            // Cookie Consent Banner Elements
+            const cookieBanner = document.getElementById('cookie-banner');
+            const cookieAcceptBtn = document.getElementById('cookie-accept');
+            const cookieDeclineBtn = document.getElementById('cookie-decline');
+
+            // Cookie and AdSense Management
+            const hasAcceptedCookies = localStorage.getItem('cookiesAccepted') === 'true';
+            const hasDeclinedCookies = localStorage.getItem('cookiesAccepted') === 'false';
+
+            if (!hasAcceptedCookies && !hasDeclinedCookies) {
+                cookieBanner.style.display = 'block';
+            }
+
+            cookieAcceptBtn.onclick = () => {
+                localStorage.setItem('cookiesAccepted', 'true');
+                cookieBanner.style.display = 'none';
+            };
+
+            cookieDeclineBtn.onclick = () => {
+                localStorage.setItem('cookiesAccepted', 'false');
+                cookieBanner.style.display = 'none';
+            };
+
+            const newsPerFeed = 100;
+            const rssFeeds = [
+                // Global aggregators and media
+                'https://news.google.com/rss/headlines/section/topic/WORLD',
+                
+                
+                'http://feeds.bbci.co.uk/news/world/rss.xml',
+                
+                'https://www.cbsnews.com/latest/rss/main',
+                'https://www.americaeconomia.com/rss.xml',
+
+                // By country - in Spanish
+                'https://news.google.com/rss?hl=es-419&gl=BO&ceid=BO:es', // Bolivia
+                'https://news.google.com/rss?hl=es-419&gl=CL&ceid=CL:es', // Chile
+                'https://news.google.com/rss?hl=es-419&gl=CR&ceid=CR:es', // Costa Rica
+                'https://news.google.com/rss?hl=es-419&gl=CU&ceid=CU:es', // Cuba
+                'https://news.google.com/rss?hl=es-419&gl=EC&ceid=EC:es', // Ecuador
+                'https://news.google.com/rss?hl=es-419&gl=ES&ceid=ES:es', // Spain
+                'https://news.google.com/rss?hl=es-419&gl=US&ceid=US:es', // USA (in Spanish)
+                'https://news.google.com/rss?hl=es-419&gl=MX&ceid=MX:es', // Mexico
+                'https://news.google.com/rss?hl=es-419&gl=NI&ceid=NI:es', // Nicaragua
+                'https://news.google.com/rss?hl=es-419&gl=PY&ceid=PY:es', // Paraguay
+                'https://news.google.com/rss?hl=es-419&gl=PE&ceid=PE:es', // Peru
+                'https://news.google.com/rss?hl=es-419&gl=UY&ceid=UY:es', // Uruguay
+                'https://news.google.com/rss?hl=es-419&gl=VE&ceid=VE:es', // Venezuela
+
+                // By country - in English
+                'https://news.google.com/rss?hl=en-GB&gl=UK&ceid=GB:en', // United Kingdom
+                'https://news.google.com/rss?hl=en-US&gl=US&ceid=US:en', // USA
+                'https://news.google.com/rss?hl=en-AU&gl=AU&ceid=AU:en', // Australia
+                'https://news.google.com/rss?hl=en-CA&gl=CA&ceid=CA:en', // Canada
+                'https://news.google.com/rss?hl=en-IN&gl=IN&ceid=IN:en', // India
+                'https://news.google.com/rss?hl=en-NG&gl=NG&ceid=NG:en', // Nigeria
+                'https://news.google.com/rss?hl=en-ZA&gl=ZA&ceid=ZA:en', // South Africa
+
+                // By country - in other languages
+                'https://news.google.com/rss?hl=pt-BR&gl=BR&ceid=BR:pt', // Brazil (Portuguese)
+                'https://news.google.com/rss?hl=de-DE&gl=DE&ceid=DE:de', // Germany (German)
+                'https://news.google.com/rss?hl=fr-FR&gl=FR&ceid=FR:fr', // France (French)
+                'https://news.google.com/rss?hl=ja-JP&gl=JP&ceid=JP:ja', // Japan (Japanese)
+                'https://news.google.com/rss?hl=zh-CN&gl=CN&ceid=CN:zh', // China (Chinese)
+                'https://news.google.com/rss?hl=ru-RU&gl=RU&ceid=RU:ru', // Russia (Russian)
+                
+                // Specific media feeds you had before
+                
+                'https://www.abc.es/rss/2.0/portada/', 
+                
+                
+                'https://www.libertaddigital.com/rss/portada.xml', 
+                 
+                'https://regeneracion.mx/feed/', 
+                'https://www.forbes.com.mx/feed/', 
+                'https://www.clarin.com/rss/lo-ultimo/', 
+                'https://www.larepublica.co/rss', 
+                'https://www.el-nacional.com/feed/', 
+                'https://www.elcomercio.com/feed/', 
+                'https://www.larepublica.ec/feed/', 
+            ];
+
+            // Helper to clean HTML from description
+            const cleanDescription = (text) => {
+                const doc = new DOMParser().parseFromString(text, 'text/html');
+                return doc.body.textContent || "";
+            };
+
+            // Helper to generate the slug
+            const createSlug = (title) => {
+                return title.toString().toLowerCase()
+                    .replace(/\s+/g, '-')
+                    .replace(/[^\w-]+/g, '')
+                    .replace(/--+/g, '-')
+                    .replace(/-+$/, '');
+            };
+
+            // Function to generate and update schema.org data
+            const updateSchema = (item) => {
+                const schemaData = {
+                    "@context": "http://schema.org",
+                    "@type": "NewsArticle",
+                    "mainEntityOfPage": {
+                        "@type": "WebPage",
+                        "@id": window.location.href
+                    },
+                    "headline": item.title,
+                    "image": [
+                        (item.enclosure && item.enclosure.link) || item.thumbnail || ""
+                    ],
+                    "datePublished": item.pubDate,
+                    "dateModified": item.pubDate,
+                    "author": {
+                        "@type": "Organization",
+                        "name": item.author || "Unknown"
+                    },
+                    "publisher": {
+                        "@type": "Organization",
+                        "name": item.feed.title || "News Aggregator",
+                        "logo": {
+                            "@type": "ImageObject",
+                            "url": "https://www.example.com/logo.png" // Replace with your logo URL
+                        }
+                    },
+                    "description": cleanDescription(item.description || item.content)
+                };
+                schemaMarkup.textContent = JSON.stringify(schemaData, null, 2);
+            };
+
+            // Function to show the news modal and update the URL
+            const showNewsModal = (item) => {
+                const title = item.title;
+                const description = cleanDescription(item.description || item.content);
+                const imageUrl = (item.enclosure && item.enclosure.link) || item.thumbnail;
+                const link = item.link;
+
+                popupTitle.textContent = title;
+                popupDescription.textContent = description;
+                popupLink.href = link;
+                
+                if (imageUrl) {
+                    popupImage.src = imageUrl;
+                    popupImage.alt = title;
+                    popupImage.classList.remove('hidden');
+                } else {
+                    popupImage.src = '';
+                    popupImage.alt = '';
+                    popupImage.classList.add('hidden');
+                }
+
+                popupContainer.style.display = 'block';
+
+                // Generate and update the slug in the URL
+                const slug = createSlug(title);
+                const newUrl = `${window.location.protocol}//${window.location.host}${window.location.pathname}?slug=${slug}`;
+                history.pushState({ path: newUrl }, '', newUrl);
+
+                // Update Schema.org data for the displayed news item
+                updateSchema(item);
+            };
+
+            // Function to close any open modal and restore the URL
+            const closeModal = () => {
+                popupContainer.style.display = 'none';
+                legalModalContainer.style.display = 'none';
+                history.pushState({}, '', window.location.pathname);
+            };
+            
+            newsCloseBtn.onclick = closeModal;
+            legalCloseBtn.onclick = closeModal;
+            window.onclick = (event) => {
+                if (event.target == popupContainer || event.target == legalModalContainer) {
+                    closeModal();
+                }
+            };
+
+            // Function to show the legal modal with specific content
+            const showLegalModal = (title, contentId) => {
+                const contentDiv = document.getElementById(contentId);
+                if (contentDiv) {
+                    legalModalTitle.textContent = title;
+                    legalModalText.innerHTML = contentDiv.innerHTML;
+                    legalModalContainer.style.display = 'block';
+                }
+            };
+
+            // Event listeners for legal links
+            legalLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const contentType = e.target.getAttribute('data-content');
+                    if (contentType === 'terms') {
+                        showLegalModal('Terms and Conditions', 'terms-content');
+                    } else if (contentType === 'privacy') {
+                        showLegalModal('Privacy Policy', 'privacy-content');
+                    } else if (contentType === 'cookies') {
+                        showLegalModal('Cookie Policy', 'cookies-content');
+                    }
+                });
+            });
+
+            // Event listener for the cookie policy link in the banner
+            cookiePolicyLinkBanner.addEventListener('click', (e) => {
+                e.preventDefault();
+                showLegalModal('Cookie Policy', 'cookies-content');
+            });
+
+            // Handle browser back button click
+            window.onpopstate = (event) => {
+                const urlParams = new URLSearchParams(window.location.search);
+                const slug = urlParams.get('slug');
+                if (!slug) {
+                    closeModal();
+                }
+            };
+            
+            let completedRequests = 0;
+            const totalRequests = rssFeeds.length;
+            let articleCounter = 0;
+
+            rssFeeds.forEach(url => {
+                const proxyURL = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(url)}`;
+                fetch(proxyURL)
+                    .then(response => {
+                        if (!response.ok) {
+                            return Promise.reject(new Error(`HTTP Error: ${response.status} at ${url}`));
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        completedRequests++;
+                        if (data && data.status === 'ok' && data.items) {
+                            const feedSource = data.feed.title || new URL(url).hostname;
+                            data.items.slice(0, newsPerFeed).forEach(item => {
+                                // Add feed title to the item for schema markup
+                                item.feed = { title: feedSource };
+
+                                // Insert ad div every 5 articles
+                                if (articleCounter > 0 && articleCounter % 5 === 0) {
+                                    const adLi = document.createElement('li');
+                                    adLi.innerHTML = `
+                                        <div class="ad-container">
+                                            <p>Advertisement</p>
+                                        </div>
+                                    `;
+                                    newsList.appendChild(adLi);
+                                }
+
+                                const li = document.createElement('li');
+                                li.classList.add('news-item');
+
+                                const imageURL = (item.enclosure && item.enclosure.link) || item.thumbnail;
+                                const newsImageContainer = document.createElement('div');
+                                newsImageContainer.classList.add('news-image-container');
+                                const newsContentDiv = document.createElement('div');
+                                newsContentDiv.classList.add('news-content');
+                                
+                                const shortDescription = item.description ? cleanDescription(item.description).substring(0, 150) + '...' : '';
+
+                                newsContentDiv.innerHTML = `
+                                    <h3><a href="${item.link}" target="_blank" rel="noopener noreferrer">${item.title}</a></h3>
+                                    <p>${shortDescription}</p>
+                                    <div class="news-source">Source: ${feedSource} | Published: ${new Date(item.pubDate).toLocaleDateString()}</div>
+                                `;
+
+                                if (imageURL) {
+                                    const img = new Image();
+                                    img.classList.add('news-image');
+                                    img.src = imageURL;
+                                    img.alt = item.title;
+                                    img.onload = () => {
+                                        newsImageContainer.appendChild(img);
+                                        li.appendChild(newsImageContainer);
+                                        li.appendChild(newsContentDiv);
+                                        newsList.appendChild(li);
+                                    };
+                                    img.onerror = () => {
+                                        li.appendChild(newsContentDiv);
+                                        newsList.appendChild(li);
+                                    };
+                                } else {
+                                    li.appendChild(newsContentDiv);
+                                    newsList.appendChild(li);
+                                }
+
+                                // Event listener to open the modal
+                                li.addEventListener('click', () => {
+                                    showNewsModal(item);
+                                });
+
+                                articleCounter++;
+                            });
+                        }
+                        if (completedRequests === totalRequests) {
+                            loader.style.display = 'none';
+                        }
+                    })
+                    .catch(error => {
+                        completedRequests++;
+                        debugLog.style.display = 'block';
+                        const errorLi = document.createElement('li');
+                        errorLi.textContent = error.message;
+                        errorList.appendChild(errorLi);
+                        console.error(`Error processing feed ${url}:`, error);
+                        if (completedRequests === totalRequests) {
+                            loader.style.display = 'none';
+                        }
+                    });
+            });
+        });
+    </script>
+</body>
+</html>
