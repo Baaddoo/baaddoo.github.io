@@ -217,36 +217,26 @@
         'en': [
             'http://feeds.bbci.co.uk/news/world/rss.xml',
             'https://www.cbsnews.com/latest/rss/main',
-            'https://rss.cnn.com/rss/cnn_topstories.rss',
-            'https://www.reuters.com/rssfeed/topNews',
-            'https://www.theguardian.com/world/rss',
-            'https://www.nytimes.com/services/xml/rss/nyt/HomePage.xml'
+            // feeds eliminados debido a errores 429
+            // 'https://rss.cnn.com/rss/cnn_topstories.rss',
+            // 'https://www.reuters.com/rssfeed/topNews',
+            // 'https://www.theguardian.com/world/rss',
+            // 'https://www.nytimes.com/services/xml/rss/nyt/HomePage.xml'
         ],
         'es': [
             'https://www.americaeconomia.com/rss.xml',
             'https://www.abc.es/rss/2.0/portada/',
             'https://www.libertaddigital.com/rss/portada.xml',
-            'https://regeneracion.mx/feed/',
             'https://www.forbes.com.mx/feed/',
             'https://www.clarin.com/rss/lo-ultimo/',
             'https://www.larepublica.co/rss',
             'https://www.el-nacional.com/feed/',
             'https://www.elcomercio.com/feed/',
             'https://www.larepublica.ec/feed/',
+            // feed eliminado debido a error 429
+            // 'https://regeneracion.mx/feed/',
         ]
     };
-
-    // La lista de Google News se mantendrá como respaldo si es necesario, pero no la usaremos de forma predeterminada
-    // debido a los bloqueos (código comentado para referencia)
-    /*
-    const GOOGLE_NEWS_BASE_URL = 'https://news.google.com/rss';
-    const GOOGLE_NEWS_COUNTRIES = {
-      'usa_en': { hl: 'en-us', gl: 'us', ceid: 'us:en' },
-      'uk_en': { hl: 'en-gb', gl: 'uk', ceid: 'gb:en' },
-      'australia_en': { hl: 'en-au', gl: 'au', ceid: 'au:en' },
-      // ... otros feeds de Google News
-    };
-    */
     
     const newsPerFeed = 100;
     let allNewsItems = [];
