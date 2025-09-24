@@ -3,94 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Imprimir Template en la misma página</title>
+    <title>Cargar iframe automáticamente</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-
-        .main-content {
-            padding: 20px;
             text-align: center;
+            margin: 20px;
         }
-
-        button {
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-
-        button:hover {
-            background-color: #0056b3;
-        }
-
-        /* ⚠️ IMPORTANTE: Media query para la impresión */
-        @media print {
-            body > *:not(#print-container) {
-                display: none;
-            }
-            #print-container {
-                display: block !important;
-                /* Puedes añadir estilos adicionales aquí para la impresión */
-            }
+        #iframe-container {
+            border: 2px solid #ccc;
+            padding: 10px;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
 
-    <div class="main-content">
-        <h1>Mi Página Principal</h1>
-        <p>Este contenido se ocultará automáticamente cuando se imprima el template.</p>
-        <button id="printButton">Imprimir Template Remoto</button>
+    <h1>Iframe cargado automáticamente</h1>
+    
+    <p>El iframe a continuación se ha creado dinámicamente con JavaScript al cargar esta página.</p>
+    
+    <div id="iframe-container">
+        <p>Cargando iframe...</p>
     </div>
 
-    <div id="print-container" style="display: none;"></div>
-
     <script>
-        document.getElementById('printButton').addEventListener('click', () => {
-            const urlTemplate = 'https://wikipedia.org'; // ⚠️ Reemplaza con la URL de tu template
-            const printContainer = document.getElementById('print-container');
-            const mainContent = document.querySelector('.main-content');
+        // La función se ejecuta cuando el DOM (Document Object Model) ha sido completamente cargado
+        document.addEventListener('DOMContentLoaded', function() {
+            // El contenedor donde se agregará el iframe
+            const container = document.getElementById('iframe-container');
+            
+            // Crea un nuevo elemento iframe
+            const iframe = document.createElement('iframe');
 
-            // Carga el template y lo inserta en el contenedor
-            fetch(urlTemplate)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('No se pudo cargar el template: ' + response.statusText);
-                    }
-                    return response.text();
-                })
-                .then(html => {
-                    printContainer.innerHTML = html;
-                    
-                    // Asegura que el contenedor se muestre para la impresión (aunque el CSS lo hará)
-                    printContainer.style.display = 'block';
-                    mainContent.style.display = 'none';
+            // Establece la URL del sitio web que quieres cargar
+            iframe.src = 'https://es.wikipedia.org/wiki/Ejemplo'; 
+            
+            // Configura atributos para el iframe
+            iframe.width = '100%';
+            iframe.height = '400px';
+            iframe.style.border = '1px solid #ddd';
+            iframe.style.marginTop = '10px';
+            iframe.setAttribute('title', 'Contenido de Wikipedia');
 
-                    // Inicia el proceso de impresión
-                    window.print();
+            // Agrega el iframe al contenedor en el DOM
+            container.innerHTML = ''; // Limpia el contenido de "Cargando..."
+            container.appendChild(iframe);
 
-                    // Restaura la página después de que se cierra el diálogo de impresión
-                    window.onafterprint = () => {
-                        printContainer.style.display = 'none';
-                        mainContent.style.display = 'block';
-                        printContainer.innerHTML = ''; // Limpia el contenedor
-                    };
-                })
-                .catch(error => {
-                    console.error('Error al cargar el template:', error);
-                    alert('Hubo un error al imprimir. Revisa la consola para más detalles.');
-                    // Asegúrate de restaurar la página si hay un error
-                    printContainer.style.display = 'none';
-                    mainContent.style.display = 'block';
-                });
+            // ⚠️ Recordatorio: La Política del Mismo Origen impide acceder al código fuente
+            // de sitios externos como Wikipedia desde tu JavaScript.
         });
     </script>
 
