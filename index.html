@@ -24,8 +24,12 @@
   .category-nav { margin: 20px 0; text-align: center; }
   .category-nav a { display: inline-block; padding: 8px 15px; margin: 5px; background-color: #e8e8e8; color: #333; text-decoration: none; border-radius: 5px; transition: background-color 0.2s; }
   .category-nav a:hover, .category-nav a.active { background-color: #1a73e8; color: white; }
+  .search-container { text-align: center; margin-bottom: 20px; }
+  .search-container input { padding: 10px; border: 1px solid #ccc; border-radius: 5px; width: 60%; max-width: 400px; }
+  .search-container button { padding: 10px 15px; border: none; background-color: #1a73e8; color: white; border-radius: 5px; cursor: pointer; }
   #news-list { list-style: none; padding: 0; display: grid; gap: 20px; }
   .news-item { display: flex; background-color: #fafafa; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden; transition: transform 0.2s; cursor: pointer; }
+  .news-item.hidden { display: none; }
   .news-item:hover { transform: translateY(-5px); box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
   .news-image-container { width: 150px; height: 150px; flex-shrink: 0; border-right: 1px solid #e0e0e0; overflow: hidden; }
   .news-image { width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -94,6 +98,10 @@
       <a href="?category=education" class="category-link" data-category="education">Education</a>
       <a href="?category=lifestyle" class="category-link" data-category="lifestyle">Lifestyle</a>
     </nav>
+    <div class="search-container">
+      <input type="text" id="searchInput" placeholder="Search news...">
+      <button id="searchButton">Search</button>
+    </div>
   </header>
   <div id="debug-log">
     <h2>Load Errors:</h2>
@@ -199,11 +207,12 @@
     const cookieBanner = document.getElementById('cookie-banner');
     const cookieAcceptBtn = document.getElementById('cookie-accept');
     const cookieDeclineBtn = document.getElementById('cookie-decline');
+    const searchInput = document.getElementById('searchInput');
+    const searchButton = document.getElementById('searchButton');
     const hasAcceptedCookies = localStorage.getItem('cookiesAccepted') === 'true';
     const hasDeclinedCookies = localStorage.getItem('cookiesAccepted') === 'false';
     const GOOGLE_NEWS_BASE_URL = 'https://news.google.com/rss';
     const GOOGLE_NEWS_COUNTRIES = {
-      // Priorizando países de habla inglesa
       'usa_en': { hl: 'en-us', gl: 'us', ceid: 'us:en' },
       'uk_en': { hl: 'en-gb', gl: 'uk', ceid: 'gb:en' },
       'australia_en': { hl: 'en-au', gl: 'au', ceid: 'au:en' },
@@ -211,11 +220,20 @@
       'india_en': { hl: 'en-in', gl: 'in', ceid: 'in:en' },
       'nigeria_en': { hl: 'en-ng', gl: 'ng', ceid: 'ng:en' },
       'southafrica_en': { hl: 'en-za', gl: 'za', ceid: 'za:en' },
-      // Otros idiomas
       'brazil_pt': { hl: 'pt-br', gl: 'br', ceid: 'br:pt' },
       'bolivia_es': { hl: 'es-419', gl: 'bo', ceid: 'bo:es' },
+      'chile_es': { hl: 'es-419', gl: 'cl', ceid: 'cl:es' },
+      'costarica_es': { hl: 'es-419', gl: 'cr', ceid: 'cr:es' },
+      'cuba_es': { hl: 'es-419', gl: 'cu', ceid: 'cu:es' },
       'ecuador_es': { hl: 'es-419', gl: 'ec', ceid: 'ec:es' },
+      'spain_es': { hl: 'es-419', gl: 'es', ceid: 'es:es' },
+      'usa_es': { hl: 'es-419', gl: 'us', ceid: 'us:es' },
+      'mexico_es': { hl: 'es-419', gl: 'mx', ceid: 'mx:es' },
+      'nicaragua_es': { hl: 'es-419', gl: 'ni', ceid: 'ni:es' },
+      'paraguay_es': { hl: 'es-419', gl: 'py', ceid: 'py:es' },
+      'peru_es': { hl: 'es-419', gl: 'pe', ceid: 'pe:es' },
       'uruguay_es': { hl: 'es-419', gl: 'uy', ceid: 'uy:es' },
+      'venezuela_es': { hl: 'es-419', gl: 've', ceid: 've:es' },
       'germany_de': { hl: 'de-de', gl: 'de', ceid: 'de:de' },
       'france_fr': { hl: 'fr-fr', gl: 'fr', ceid: 'fr:fr' },
       'japan_ja': { hl: 'ja-jp', gl: 'jp', ceid: 'jp:ja' },
@@ -237,6 +255,7 @@
       'https://www.larepublica.ec/feed/',
     ];
     const newsPerFeed = 100;
+    let allNewsItems = [];
     const cleanDescription = (text) => {
       const doc = new DOMParser().parseFromString(text, 'text/html');
       return doc.body.textContent || "";
@@ -330,14 +349,68 @@
       const img = htmlDoc.querySelector('img');
       return img ? img.src : null;
     };
+    const renderNews = (items) => {
+      newsList.innerHTML = '';
+      let articleCounter = 0;
+      items.forEach(item => {
+        if (articleCounter > 0 && articleCounter % 5 === 0) {
+          const adLi = document.createElement('li');
+          adLi.innerHTML = `<div class="ad-container"><p>Advertisement</p></div>`;
+          newsList.appendChild(adLi);
+        }
+        const li = document.createElement('li');
+        li.classList.add('news-item');
+        let imageUrl = (item.enclosure && item.enclosure.link) || item.thumbnail;
+        if (!imageUrl && item.description) {
+          imageUrl = extractImageFromDescription(item.description);
+        }
+        const newsImageContainer = document.createElement('div');
+        newsImageContainer.classList.add('news-image-container');
+        const newsContentDiv = document.createElement('div');
+        newsContentDiv.classList.add('news-content');
+        const shortDescription = item.description ? cleanDescription(item.description).substring(0, 150) + '...' : '';
+        newsContentDiv.innerHTML = `
+          <a href="${item.link}" target="_blank" rel="noopener noreferrer">
+            <h3>${item.title}</h3>
+          </a>
+          <p>${shortDescription}</p>
+          <div class="news-source">Source: ${item.feed.title} | Published: ${new Date(item.pubDate).toLocaleDateString()}</div>
+        `;
+        if (imageUrl) {
+          const img = new Image();
+          img.classList.add('news-image');
+          img.src = imageUrl;
+          img.alt = item.title;
+          img.onload = () => {
+            newsImageContainer.appendChild(img);
+            li.appendChild(newsImageContainer);
+            li.appendChild(newsContentDiv);
+            newsList.appendChild(li);
+          };
+          img.onerror = () => {
+            li.appendChild(newsContentDiv);
+            newsList.appendChild(li);
+          };
+        } else {
+          li.appendChild(newsContentDiv);
+          newsList.appendChild(li);
+        }
+        li.addEventListener('click', (e) => { 
+          if (e.target.tagName.toLowerCase() !== 'a' && e.target.closest('a') === null) {
+              showNewsModal(item); 
+          }
+        });
+        articleCounter++;
+      });
+    };
     const fetchAndRenderNews = (feeds) => {
+      allNewsItems = [];
       newsList.innerHTML = '';
       errorList.innerHTML = '';
       debugLog.style.display = 'none';
       loader.style.display = 'block';
       let completedRequests = 0;
       const totalRequests = feeds.length;
-      let articleCounter = 0;
       feeds.forEach(url => {
         const proxyURL = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(url)}`;
         fetch(proxyURL)
@@ -351,114 +424,15 @@
             completedRequests++;
             if (data && data.status === 'ok' && data.items) {
               const feedSource = data.feed.title || new URL(url).hostname;
-              data.items.slice(0, newsPerFeed).forEach(item => {
-                item.feed = { title: feedSource };
-                if (articleCounter > 0 && articleCounter % 5 === 0) {
-                  const adLi = document.createElement('li');
-                  adLi.innerHTML = `<div class="ad-container"><p>Advertisement</p></div>`;
-                  newsList.appendChild(adLi);
-                }
-                const li = document.createElement('li');
-                li.classList.add('news-item');
-                let imageUrl = (item.enclosure && item.enclosure.link) || item.thumbnail;
-                if (!imageUrl && item.description) {
-                  imageUrl = extractImageFromDescription(item.description);
-                }
-                const newsImageContainer = document.createElement('div');
-                newsImageContainer.classList.add('news-image-container');
-                const newsContentDiv = document.createElement('div');
-                newsContentDiv.classList.add('news-content');
-                const shortDescription = item.description ? cleanDescription(item.description).substring(0, 150) + '...' : '';
-                newsContentDiv.innerHTML = `
-                  <a href="${item.link}" target="_blank" rel="noopener noreferrer">
-                    <h3>${item.title}</h3>
-                  </a>
-                  <p>${shortDescription}</p>
-                  <div class="news-source">Source: ${feedSource} | Published: ${new Date(item.pubDate).toLocaleDateString()}</div>
-                `;
-                if (imageUrl) {
-                  const img = new Image();
-                  img.classList.add('news-image');
-                  img.src = imageUrl;
-                  img.alt = item.title;
-                  img.onload = () => {
-                    newsImageContainer.appendChild(img);
-                    li.appendChild(newsImageContainer);
-                    li.appendChild(newsContentDiv);
-                    newsList.appendChild(li);
-                  };
-                  img.onerror = () => {
-                    li.appendChild(newsContentDiv);
-                    newsList.appendChild(li);
-                  };
-                } else {
-                  li.appendChild(newsContentDiv);
-                  newsList.appendChild(li);
-                }
-                li.addEventListener('click', (e) => { 
-                  if (e.target.tagName.toLowerCase() !== 'a' && e.target.closest('a') === null) {
-                      showNewsModal(item); 
-                  }
-                });
-                articleCounter++;
-              });
+              const itemsWithSource = data.items.map(item => ({...item, feed: { title: feedSource }}));
+              allNewsItems.push(...itemsWithSource);
             }
-            if (completedRequests === totalRequests) { loader.style.display = 'none'; }
+            if (completedRequests === totalRequests) {
+              allNewsItems.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+              renderNews(allNewsItems);
+              loader.style.display = 'none';
+            }
           })
           .catch(error => {
             completedRequests++;
-            debugLog.style.display = 'block';
-            const errorLi = document.createElement('li');
-            errorLi.textContent = error.message;
-            errorList.appendChild(errorLi);
-            console.error(`Error processing feed ${url}:`, error);
-            if (completedRequests === totalRequests) { loader.style.display = 'none'; }
-          });
-      });
-    };
-    if (!hasAcceptedCookies && !hasDeclinedCookies) {
-      cookieBanner.style.display = 'block';
-    }
-    cookieAcceptBtn.onclick = () => { localStorage.setItem('cookiesAccepted', 'true'); cookieBanner.style.display = 'none'; };
-    cookieDeclineBtn.onclick = () => { localStorage.setItem('cookiesAccepted', 'false'); cookieBanner.style.display = 'none'; };
-    const getFeedsByCategory = (category) => {
-        let feedsToLoad = [];
-        const googleNewsFeeds = [];
-        for (const countryKey in GOOGLE_NEWS_COUNTRIES) {
-            if (GOOGLE_NEWS_COUNTRIES.hasOwnProperty(countryKey)) {
-                const params = GOOGLE_NEWS_COUNTRIES[countryKey];
-                const url = `${GOOGLE_NEWS_BASE_URL}/headlines/section/topic/${category}?hl=${params.hl}&gl=${params.gl}&ceid=${params.ceid}`;
-                googleNewsFeeds.push(url);
-            }
-        }
-        if (category === 'all') {
-            feedsToLoad = staticRssFeeds.concat(googleNewsFeeds.map(url => url.replace('/headlines/section/topic/all', '')));
-        } else {
-            feedsToLoad = googleNewsFeeds;
-        }
-        return feedsToLoad;
-    };
-    categoryLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            const category = e.target.getAttribute('data-category');
-            
-            categoryLinks.forEach(l => l.classList.remove('active'));
-            e.target.classList.add('active');
-            
-            history.pushState({ category: category }, '', `?category=${category}`);
-            fetchAndRenderNews(getFeedsByCategory(category));
-        });
-    });
-    const urlParams = new URLSearchParams(window.location.search);
-    const initialCategory = urlParams.get('category') || 'all';
-    const initialFeeds = getFeedsByCategory(initialCategory);
-    fetchAndRenderNews(initialFeeds);
-    const activeLink = document.querySelector(`.category-link[data-category="${initialCategory}"]`);
-    if (activeLink) {
-        activeLink.classList.add('active');
-    }
-  });
-</script>
-</body>
-</html>
+            debugLog.style
