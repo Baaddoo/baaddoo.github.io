@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -44,7 +44,9 @@
   .search-container input:focus { border-color: var(--primary-color); }
   .search-container button { padding: 8px 15px; border: none; background-color: var(--primary-color); color: var(--card-background); border-radius: 20px; cursor: pointer; transition: background-color 0.2s; }
   .search-container button:hover { background-color: #155bb5; }
-  #news-list { list-style: none; padding: 0; display: grid; gap: 20px; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+  .country-section { margin-top: 40px; }
+  .country-section h2 { border-bottom: 2px solid var(--primary-color); padding-bottom: 5px; margin-bottom: 20px; }
+  .news-grid { list-style: none; padding: 0; display: grid; gap: 20px; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
   .news-item { background-color: var(--card-background); border-radius: 12px; overflow: hidden; box-shadow: var(--box-shadow); transition: transform 0.3s ease, box-shadow 0.3s ease; display: flex; flex-direction: column; cursor: pointer; }
   .news-item:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
   .news-image-container { width: 100%; height: 200px; overflow: hidden; }
@@ -137,7 +139,7 @@
     <ul id="error-list"></ul>
   </div>
   <div id="loader" class="loader">Loading news...</div>
-  <ul id="news-list"></ul>
+  <div id="news-container"></div>
 </div>
 <div id="popup-container" class="popup-container">
   <div class="popup-content">
@@ -215,7 +217,7 @@
 </div>
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    const newsList = document.getElementById('news-list');
+    const newsContainer = document.getElementById('news-container');
     const loader = document.getElementById('loader');
     const debugLog = document.getElementById('debug-log');
     const errorList = document.getElementById('error-list');
@@ -241,27 +243,92 @@
     const hasAcceptedCookies = localStorage.getItem('cookiesAccepted') === 'true';
     const hasDeclinedCookies = localStorage.getItem('cookiesAccepted') === 'false';
     
-    // Lista de feeds directamente de los medios de comunicación, priorizados por idioma
-    const staticRssFeeds = {
-        'en': [
-            'http://feeds.bbci.co.uk/news/world/rss.xml',
-            'https://www.cbsnews.com/latest/rss/main'
-        ],
-        'es': [
-            'https://www.americaeconomia.com/rss.xml',
-            'https://www.abc.es/rss/2.0/portada/',
-            'https://www.libertaddigital.com/rss/portada.xml',
-            'https://www.forbes.com.mx/feed/',
-            'https://www.clarin.com/rss/lo-ultimo/',
-            'https://www.larepublica.co/rss',
-            'https://www.el-nacional.com/feed/',
-            'https://www.elcomercio.com/feed/',
-            'https://www.larepublica.ec/feed/'
-        ]
+    const googleFeeds = {
+      'Argentina': { 'lang': 'es-419', 'gl': 'AR', 'ceid': 'AR:es-419' },
+      'Australia': { 'lang': 'en-AU', 'gl': 'AU', 'ceid': 'AU:en' },
+      'Austria': { 'lang': 'de-AT', 'gl': 'AT', 'ceid': 'AT:de' },
+      'Bangladesh': { 'lang': 'bn-BD', 'gl': 'BD', 'ceid': 'BD:bn' },
+      'Belgium (Dutch)': { 'lang': 'nl-BE', 'gl': 'BE', 'ceid': 'BE:nl' },
+      'Belgium (French)': { 'lang': 'fr-BE', 'gl': 'BE', 'ceid': 'BE:fr' },
+      'Bolivia': { 'lang': 'es-419', 'gl': 'BO', 'ceid': 'BO:es-419' },
+      'Brazil': { 'lang': 'pt-BR', 'gl': 'BR', 'ceid': 'BR:pt-BR' },
+      'Canada': { 'lang': 'en-CA', 'gl': 'CA', 'ceid': 'CA:en' },
+      'Canada (French)': { 'lang': 'fr-CA', 'gl': 'CA', 'ceid': 'CA:fr' },
+      'Chile': { 'lang': 'es-419', 'gl': 'CL', 'ceid': 'CL:es-419' },
+      'China': { 'lang': 'zh-CN', 'gl': 'CN', 'ceid': 'CN:zh' },
+      'Colombia': { 'lang': 'es-419', 'gl': 'CO', 'ceid': 'CO:es-419' },
+      'Costa Rica': { 'lang': 'es-419', 'gl': 'CR', 'ceid': 'CR:es-419' },
+      'Cuba': { 'lang': 'es-419', 'gl': 'CU', 'ceid': 'CU:es-419' },
+      'Czechia': { 'lang': 'cs-CZ', 'gl': 'CZ', 'ceid': 'CZ:cs' },
+      'Denmark': { 'lang': 'da-DK', 'gl': 'DK', 'ceid': 'DK:da' },
+      'Dominican Republic': { 'lang': 'es-419', 'gl': 'DO', 'ceid': 'DO:es-419' },
+      'Ecuador': { 'lang': 'es-419', 'gl': 'EC', 'ceid': 'EC:es-419' },
+      'Egypt': { 'lang': 'ar-EG', 'gl': 'EG', 'ceid': 'EG:ar' },
+      'El Salvador': { 'lang': 'es-419', 'gl': 'SV', 'ceid': 'SV:es-419' },
+      'France': { 'lang': 'fr-FR', 'gl': 'FR', 'ceid': 'FR:fr' },
+      'Germany': { 'lang': 'de-DE', 'gl': 'DE', 'ceid': 'DE:de' },
+      'Greece': { 'lang': 'el-GR', 'gl': 'GR', 'ceid': 'GR:el' },
+      'Guatemala': { 'lang': 'es-419', 'gl': 'GT', 'ceid': 'GT:es-419' },
+      'Honduras': { 'lang': 'es-419', 'gl': 'HN', 'ceid': 'HN:es-419' },
+      'Hong Kong': { 'lang': 'zh-HK', 'gl': 'HK', 'ceid': 'HK:zh' },
+      'Hungary': { 'lang': 'hu-HU', 'gl': 'HU', 'ceid': 'HU:hu' },
+      'India (English)': { 'lang': 'en-IN', 'gl': 'IN', 'ceid': 'IN:en' },
+      'India (Hindi)': { 'lang': 'hi-IN', 'gl': 'IN', 'ceid': 'IN:hi' },
+      'Indonesia': { 'lang': 'id-ID', 'gl': 'ID', 'ceid': 'ID:id' },
+      'Ireland': { 'lang': 'en-IE', 'gl': 'IE', 'ceid': 'IE:en' },
+      'Israel (Hebrew)': { 'lang': 'he-IL', 'gl': 'IL', 'ceid': 'IL:he' },
+      'Italy': { 'lang': 'it-IT', 'gl': 'IT', 'ceid': 'IT:it' },
+      'Japan': { 'lang': 'ja-JP', 'gl': 'JP', 'ceid': 'JP:ja' },
+      'Kenya': { 'lang': 'en-KE', 'gl': 'KE', 'ceid': 'KE:en' },
+      'Latvia': { 'lang': 'lv-LV', 'gl': 'LV', 'ceid': 'LV:lv' },
+      'Lithuania': { 'lang': 'lt-LT', 'gl': 'LT', 'ceid': 'LT:lt' },
+      'Malaysia': { 'lang': 'en-MY', 'gl': 'MY', 'ceid': 'MY:en' },
+      'Mexico': { 'lang': 'es-419', 'gl': 'MX', 'ceid': 'MX:es-419' },
+      'Morocco': { 'lang': 'fr-MA', 'gl': 'MA', 'ceid': 'MA:fr' },
+      'Netherlands': { 'lang': 'nl-NL', 'gl': 'NL', 'ceid': 'NL:nl' },
+      'New Zealand': { 'lang': 'en-NZ', 'gl': 'NZ', 'ceid': 'NZ:en' },
+      'Nicaragua': { 'lang': 'es-419', 'gl': 'NI', 'ceid': 'NI:es-419' },
+      'Nigeria': { 'lang': 'en-NG', 'gl': 'NG', 'ceid': 'NG:en' },
+      'Norway': { 'lang': 'no-NO', 'gl': 'NO', 'ceid': 'NO:no' },
+      'Panama': { 'lang': 'es-419', 'gl': 'PA', 'ceid': 'PA:es-419' },
+      'Paraguay': { 'lang': 'es-419', 'gl': 'PY', 'ceid': 'PY:es-419' },
+      'Peru': { 'lang': 'es-419', 'gl': 'PE', 'ceid': 'PE:es-419' },
+      'Philippines': { 'lang': 'en-PH', 'gl': 'PH', 'ceid': 'PH:en' },
+      'Poland': { 'lang': 'pl-PL', 'gl': 'PL', 'ceid': 'PL:pl' },
+      'Portugal': { 'lang': 'pt-PT', 'gl': 'PT', 'ceid': 'PT:pt-PT' },
+      'Romania': { 'lang': 'ro-RO', 'gl': 'RO', 'ceid': 'RO:ro' },
+      'Russia': { 'lang': 'ru-RU', 'gl': 'RU', 'ceid': 'RU:ru' },
+      'Saudi Arabia': { 'lang': 'ar-SA', 'gl': 'SA', 'ceid': 'SA:ar' },
+      'Singapore': { 'lang': 'en-SG', 'gl': 'SG', 'ceid': 'SG:en' },
+      'South Africa': { 'lang': 'en-ZA', 'gl': 'ZA', 'ceid': 'ZA:en' },
+      'South Korea': { 'lang': 'ko-KR', 'gl': 'KR', 'ceid': 'KR:ko' },
+      'Spain': { 'lang': 'es-ES', 'gl': 'ES', 'ceid': 'ES:es' },
+      'Sweden': { 'lang': 'sv-SE', 'gl': 'SE', 'ceid': 'SE:sv' },
+      'Switzerland (French)': { 'lang': 'fr-CH', 'gl': 'CH', 'ceid': 'CH:fr' },
+      'Switzerland (German)': { 'lang': 'de-CH', 'gl': 'CH', 'ceid': 'CH:de' },
+      'Taiwan': { 'lang': 'zh-TW', 'gl': 'TW', 'ceid': 'TW:zh' },
+      'Tanzania': { 'lang': 'en-TZ', 'gl': 'TZ', 'ceid': 'TZ:en' },
+      'Thailand': { 'lang': 'th-TH', 'gl': 'TH', 'ceid': 'TH:th' },
+      'Turkey': { 'lang': 'tr-TR', 'gl': 'TR', 'ceid': 'TR:tr' },
+      'Uganda': { 'lang': 'en-UG', 'gl': 'UG', 'ceid': 'UG:en' },
+      'Ukraine': { 'lang': 'uk-UA', 'gl': 'UA', 'ceid': 'UA:uk' },
+      'United Kingdom': { 'lang': 'en-GB', 'gl': 'GB', 'ceid': 'GB:en' },
+      'United States': { 'lang': 'en-US', 'gl': 'US', 'ceid': 'US:en' },
+      'Uruguay': { 'lang': 'es-419', 'gl': 'UY', 'ceid': 'UY:es-419' },
+      'Venezuela': { 'lang': 'es-419', 'gl': 'VE', 'ceid': 'VE:es-419' },
+      'Vietnam': { 'lang': 'vi-VN', 'gl': 'VN', 'ceid': 'VN:vi' }
     };
     
-    const newsPerFeed = 100;
-    let allNewsItems = [];
+    let currentCategory = 'all';
+
+    const getFeedUrl = (countryKey, category) => {
+      const countryData = googleFeeds[countryKey];
+      if (!countryData) return null;
+      
+      const baseUrl = 'https://news.google.com/rss';
+      const topicPath = category === 'all' ? '' : `/headlines/section/topic/${category.toUpperCase()}`;
+      return `${baseUrl}${topicPath}?hl=${countryData.lang}&gl=${countryData.gl}&ceid=${countryData.ceid}`;
+    };
 
     const cleanDescription = (text) => {
       const doc = new DOMParser().parseFromString(text, 'text/html');
@@ -325,7 +392,7 @@
       }
       popupContainer.style.display = 'block';
       const slug = createSlug(title);
-      const newUrl = `${window.location.protocol}//${window.location.host}${window.location.pathname}?slug=${slug}`;
+      const newUrl = `${window.location.protocol}//${window.location.host}${window.location.pathname}?category=${currentCategory}&slug=${slug}`;
       history.pushState({ path: newUrl }, '', newUrl);
       updateSchema(item);
     };
@@ -333,7 +400,7 @@
     const closeModal = () => {
       popupContainer.style.display = 'none';
       legalModalContainer.style.display = 'none';
-      history.pushState({}, '', window.location.pathname);
+      history.pushState({}, '', `?category=${currentCategory}`);
       schemaMarkup.textContent = ''; // Clear schema on close
     };
 
@@ -381,119 +448,154 @@
         const img = htmlDoc.querySelector('img');
         return img ? img.src : null;
     };
-
-    const renderNews = (items) => {
-      newsList.innerHTML = '';
-      let articleCounter = 0;
-      items.forEach(item => {
-        if (articleCounter > 0 && articleCounter % 5 === 0) {
-          const adLi = document.createElement('li');
-          adLi.innerHTML = `<div class="ad-container"><p>Advertisement</p></div>`;
-          newsList.appendChild(adLi);
-        }
-        const li = document.createElement('li');
-        li.classList.add('news-item');
-        let imageUrl = item.image;
-        if (!imageUrl) {
-            imageUrl = extractImageFromContent(item.content || item.description);
-        }
-
-        const newsImageContainer = document.createElement('div');
-        newsImageContainer.classList.add('news-image-container');
-        const newsContentDiv = document.createElement('div');
-        newsContentDiv.classList.add('news-content');
-        const shortDescription = item.description ? cleanDescription(item.description).substring(0, 150) + '...' : '';
-
-        newsContentDiv.innerHTML = `
-          <a href="${item.link}" target="_blank" rel="noopener noreferrer">
-            <h3>${item.title}</h3>
-          </a>
-          <p>${shortDescription}</p>
-          <div class="news-source">Source: ${item.feed.title} | Published: ${new Date(item.pubDate).toLocaleDateString()}</div>
-        `;
-
-        if (imageUrl) {
-          const img = new Image();
-          img.classList.add('news-image');
-          img.src = imageUrl;
-          img.alt = item.title;
-          img.onload = () => {
-            newsImageContainer.appendChild(img);
-            li.appendChild(newsImageContainer);
-            li.appendChild(newsContentDiv);
-            newsList.appendChild(li);
-          };
-          img.onerror = () => {
-            li.appendChild(newsContentDiv);
-            newsList.appendChild(li);
-          };
-        } else {
-          li.appendChild(newsContentDiv);
-          newsList.appendChild(li);
-        }
-
-        li.addEventListener('click', (e) => { 
-          if (e.target.tagName.toLowerCase() !== 'a' && e.target.closest('a') === null) {
-              showNewsModal(item); 
-          }
+    
+    const renderNews = (items, parentElement) => {
+        items.slice(0, 10).forEach(item => { // Limit to 10 news items per country
+            const li = document.createElement('li');
+            li.classList.add('news-item');
+            
+            let imageUrl = (item.enclosure && item.enclosure.link) || (item.thumbnail && item.thumbnail.url);
+            if (!imageUrl) {
+              imageUrl = extractImageFromContent(item.content || item.description);
+            }
+    
+            const newsImageContainer = document.createElement('div');
+            newsImageContainer.classList.add('news-image-container');
+            const newsContentDiv = document.createElement('div');
+            newsContentDiv.classList.add('news-content');
+            const shortDescription = item.description ? cleanDescription(item.description).substring(0, 150) + '...' : '';
+    
+            newsContentDiv.innerHTML = `
+                <a href="${item.link}" target="_blank" rel="noopener noreferrer">
+                    <h3>${item.title}</h3>
+                </a>
+                <p>${shortDescription}</p>
+                <div class="news-source">Source: ${item.feed.title} | Published: ${new Date(item.pubDate).toLocaleDateString()}</div>
+            `;
+    
+            if (imageUrl) {
+                const img = new Image();
+                img.classList.add('news-image');
+                img.src = imageUrl;
+                img.alt = item.title;
+                img.onload = () => {
+                    newsImageContainer.appendChild(img);
+                    li.appendChild(newsImageContainer);
+                    li.appendChild(newsContentDiv);
+                    parentElement.appendChild(li);
+                };
+                img.onerror = () => {
+                    li.appendChild(newsContentDiv);
+                    parentElement.appendChild(li);
+                };
+            } else {
+                li.appendChild(newsContentDiv);
+                parentElement.appendChild(li);
+            }
+  
+            li.addEventListener('click', (e) => { 
+                if (e.target.tagName.toLowerCase() !== 'a' && e.target.closest('a') === null) {
+                    showNewsModal(item); 
+                }
+            });
         });
-        articleCounter++;
-      });
     };
 
-    const fetchAndRenderNews = (feeds) => {
-      allNewsItems = [];
-      newsList.innerHTML = '';
+    const fetchAndRenderAllNews = (category) => {
+      newsContainer.innerHTML = '';
       errorList.innerHTML = '';
       debugLog.style.display = 'none';
       loader.style.display = 'block';
+
+      const countryKeys = Object.keys(googleFeeds);
+      const shuffledCountryKeys = countryKeys.sort(() => 0.5 - Math.random());
       
-      const languages = ['en', 'es'];
-      const feedPromises = [];
+      let pendingFetches = shuffledCountryKeys.length;
       
-      languages.forEach(lang => {
-        if (staticRssFeeds[lang]) {
-          staticRssFeeds[lang].forEach(url => {
-            feedPromises.push(
-              fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(url)}`)
-                .then(response => {
-                  if (!response.ok) {
-                    throw new Error(`HTTP Error: ${response.status} at ${url}`);
-                  }
-                  return response.json();
-                })
-                .then(data => {
-                  if (data && data.status === 'ok' && data.items) {
-                    const feedSource = data.feed.title || new URL(url).hostname;
-                    return data.items.map(item => ({ ...item, feed: { title: feedSource } }));
-                  }
-                  return [];
-                })
-                .catch(error => {
-                  debugLog.style.display = 'block';
-                  const errorLi = document.createElement('li');
-                  errorLi.textContent = error.message;
-                  errorList.appendChild(errorLi);
-                  console.error(`Error processing feed ${url}:`, error);
-                  return [];
-                })
-            );
-          });
+      shuffledCountryKeys.forEach(countryKey => {
+        const feedUrl = getFeedUrl(countryKey, category);
+        if (!feedUrl) {
+          pendingFetches--;
+          if (pendingFetches === 0) loader.style.display = 'none';
+          return;
         }
-      });
-    
-      Promise.all(feedPromises)
-        .then(results => {
-          results.forEach(items => {
-            allNewsItems.push(...items);
+        
+        fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feedUrl)}`)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(`HTTP Error: ${response.status} at ${feedUrl}`);
+            }
+            return response.json();
+          })
+          .then(data => {
+            if (data && data.status === 'ok' && data.items && data.items.length > 0) {
+              const countrySection = document.createElement('div');
+              countrySection.classList.add('country-section');
+              const sectionTitle = document.createElement('h2');
+              sectionTitle.textContent = countryKey;
+              const newsGrid = document.createElement('ul');
+              newsGrid.classList.add('news-grid');
+              
+              const feedSource = data.feed.title || new URL(feedUrl).hostname;
+              const newsItems = data.items.map(item => ({ ...item, feed: { title: feedSource } }));
+              
+              renderNews(newsItems, newsGrid);
+              countrySection.appendChild(sectionTitle);
+              countrySection.appendChild(newsGrid);
+              
+              newsContainer.appendChild(countrySection);
+            }
+          })
+          .catch(error => {
+            console.error(`Error loading news from ${countryKey}:`, error);
+            debugLog.style.display = 'block';
+            const errorLi = document.createElement('li');
+            errorLi.textContent = `Error loading news from ${countryKey}: ${error.message}`;
+            errorList.appendChild(errorLi);
+          })
+          .finally(() => {
+            pendingFetches--;
+            if (pendingFetches === 0) {
+              loader.style.display = 'none';
+            }
           });
-    
-          allNewsItems.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
-          renderNews(allNewsItems);
+      });
+    };
+
+    const searchGoogleNews = (query) => {
+      newsContainer.innerHTML = '';
+      loader.style.display = 'block';
+      const searchUrlTemplate = 'https://news.google.com/rss/search?q=';
+      const queryUrl = `${searchUrlTemplate}${encodeURIComponent(query)}&hl=en-US&gl=US&ceid=US:en`;
+
+      fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(queryUrl)}`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`HTTP Error: ${response.status} during search`);
+          }
+          return response.json();
+        })
+        .then(data => {
+          if (data.status === 'ok' && data.items && data.items.length > 0) {
+            const searchResults = data.items.map(item => ({ ...item, feed: { title: 'Google News Search' } }));
+            const searchSection = document.createElement('div');
+            searchSection.classList.add('country-section');
+            const sectionTitle = document.createElement('h2');
+            sectionTitle.textContent = `Search Results for "${query}"`;
+            const newsGrid = document.createElement('ul');
+            newsGrid.classList.add('news-grid');
+            renderNews(searchResults, newsGrid);
+            searchSection.appendChild(sectionTitle);
+            searchSection.appendChild(newsGrid);
+            newsContainer.appendChild(searchSection);
+          } else {
+            newsContainer.innerHTML = '<div class="loader">No se encontraron noticias para la búsqueda.</div>';
+          }
           loader.style.display = 'none';
         })
         .catch(error => {
-          console.error("Error fetching all feeds:", error);
+          console.error("Error fetching search results:", error);
+          newsContainer.innerHTML = '<div class="loader">Ocurrió un error al buscar noticias.</div>';
           loader.style.display = 'none';
         });
     };
@@ -505,30 +607,25 @@
     cookieAcceptBtn.onclick = () => { localStorage.setItem('cookiesAccepted', 'true'); cookieBanner.style.display = 'none'; };
     cookieDeclineBtn.onclick = () => { localStorage.setItem('cookiesAccepted', 'false'); cookieBanner.style.display = 'none'; };
 
-    const getFeedsByCategory = (category) => {
-        let feedsToLoad = [];
-        feedsToLoad.push(...staticRssFeeds.en);
-        feedsToLoad.push(...staticRssFeeds.es);
-        return feedsToLoad;
-    };
-
     categoryLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            const category = e.target.getAttribute('data-category');
-            categoryLinks.forEach(l => l.classList.remove('active'));
-            e.target.classList.add('active');
-            history.pushState({ category: category }, '', `?category=${category}`);
-            fetchAndRenderNews(getFeedsByCategory(category));
-        });
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const category = e.target.getAttribute('data-category');
+        categoryLinks.forEach(l => l.classList.remove('active'));
+        e.target.classList.add('active');
+        currentCategory = category;
+        history.pushState({ category: currentCategory }, '', `?category=${currentCategory}`);
+        fetchAndRenderAllNews(currentCategory);
+      });
     });
 
     searchButton.addEventListener('click', () => {
-        const searchTerm = searchInput.value.toLowerCase();
-        const filteredItems = allNewsItems.filter(item => {
-            return item.title.toLowerCase().includes(searchTerm) || (item.description && item.description.toLowerCase().includes(searchTerm));
-        });
-        renderNews(filteredItems);
+      const searchTerm = searchInput.value.trim();
+      if (searchTerm) {
+        searchGoogleNews(searchTerm);
+      } else {
+        fetchAndRenderAllNews(currentCategory);
+      }
     });
 
     searchInput.addEventListener('keypress', (e) => {
@@ -538,13 +635,12 @@
     });
 
     const urlParams = new URLSearchParams(window.location.search);
-    const initialCategory = urlParams.get('category') || 'all';
-    const initialFeeds = getFeedsByCategory(initialCategory);
-    fetchAndRenderNews(initialFeeds);
+    currentCategory = urlParams.get('category') || 'all';
+    fetchAndRenderAllNews(currentCategory);
 
-    const activeLink = document.querySelector(`.category-link[data-category="${initialCategory}"]`);
+    const activeLink = document.querySelector(`.category-link[data-category="${currentCategory}"]`);
     if (activeLink) {
-        activeLink.classList.add('active');
+      activeLink.classList.add('active');
     }
   });
 </script>
