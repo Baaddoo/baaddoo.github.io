@@ -7,6 +7,8 @@
 <meta name="description" content="The latest news and headlines from the world's most important media outlets in one place. Stay informed with our real-time news aggregator.">
 <meta name="keywords" content="news, headlines, breaking news, world news, media, press, rss, news aggregator, technology, sports, business, science">
 <meta name="author" content="Global News">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2960719343978390" crossorigin="anonymous"></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-3P34ST6ZVZ"></script>
 <script>
@@ -17,56 +19,80 @@
 </script>
 <script type="application/ld+json" id="schema-markup"></script>
 <style>
-  body { font-family: Arial, sans-serif; background-color: #f0f2f5; margin: 0; padding: 20px; }
-  .container { max-width: 1000px; margin: auto; background-color: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-  header { text-align: center; margin-bottom: 20px; }
-  header h1 { color: #1a73e8; border-bottom: 3px solid #e0e0e0; padding-bottom: 10px; margin-bottom: 0; }
-  .category-nav { margin: 20px 0; text-align: center; }
-  .category-nav a { display: inline-block; padding: 8px 15px; margin: 5px; background-color: #e8e8e8; color: #333; text-decoration: none; border-radius: 5px; transition: background-color 0.2s; }
-  .category-nav a:hover, .category-nav a.active { background-color: #1a73e8; color: white; }
-  .search-container { text-align: center; margin-bottom: 20px; }
-  .search-container input { padding: 10px; border: 1px solid #ccc; border-radius: 5px; width: 60%; max-width: 400px; }
-  .search-container button { padding: 10px 15px; border: none; background-color: #1a73e8; color: white; border-radius: 5px; cursor: pointer; }
-  #news-list { list-style: none; padding: 0; display: grid; gap: 20px; }
-  .news-item { display: flex; background-color: #fafafa; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden; transition: transform 0.2s; cursor: pointer; }
-  .news-item.hidden { display: none; }
-  .news-item:hover { transform: translateY(-5px); box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-  .news-image-container { width: 150px; height: 150px; flex-shrink: 0; border-right: 1px solid #e0e0e0; overflow: hidden; }
-  .news-image { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .news-content { padding: 15px; flex-grow: 1; }
-  .news-content h3 { margin-top: 0; font-size: 1.2em; color: #333; }
-  .news-content a { text-decoration: none; color: #1a73e8; font-weight: bold; }
-  .news-content p { font-size: 0.9em; color: #555; line-height: 1.4; margin: 5px 0 10px; }
-  .news-source { font-size: 0.8em; color: #888; }
-  .loader { text-align: center; padding: 50px; font-size: 1.2em; color: #666; }
+  :root {
+    --primary-color: #1a73e8;
+    --text-color: #333;
+    --background-color: #f0f2f5;
+    --card-background: #fff;
+    --border-color: #e0e0e0;
+    --secondary-text-color: #555;
+    --tertiary-text-color: #888;
+    --box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; background-color: var(--background-color); margin: 0; padding: 0; }
+  .container { max-width: 1200px; margin: auto; padding: 20px; }
+  header { text-align: center; margin-bottom: 20px; padding: 20px 0; border-bottom: 1px solid var(--border-color); }
+  header h1 { color: var(--primary-color); margin: 0; font-size: 2.5em; font-weight: 700; }
+  .nav-bar { position: sticky; top: 0; z-index: 100; background-color: var(--card-background); padding: 10px 0; border-bottom: 1px solid var(--border-color); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+  .nav-content { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; max-width: 1200px; margin: auto; padding: 0 20px; }
+  .category-nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; flex-grow: 1; }
+  .category-nav a { display: flex; align-items: center; padding: 8px 15px; background-color: var(--background-color); color: var(--text-color); text-decoration: none; border-radius: 20px; transition: background-color 0.2s, color 0.2s; font-size: 0.9em; font-weight: 500; }
+  .category-nav a i { margin-right: 8px; }
+  .category-nav a:hover, .category-nav a.active { background-color: var(--primary-color); color: var(--card-background); }
+  .search-container { display: flex; gap: 5px; margin-top: 10px; width: 100%; }
+  .search-container input { padding: 8px 15px; border: 1px solid var(--border-color); border-radius: 20px; flex-grow: 1; outline: none; transition: border-color 0.2s; }
+  .search-container input:focus { border-color: var(--primary-color); }
+  .search-container button { padding: 8px 15px; border: none; background-color: var(--primary-color); color: var(--card-background); border-radius: 20px; cursor: pointer; transition: background-color 0.2s; }
+  .search-container button:hover { background-color: #155bb5; }
+  #news-list { list-style: none; padding: 0; display: grid; gap: 20px; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+  .news-item { background-color: var(--card-background); border-radius: 12px; overflow: hidden; box-shadow: var(--box-shadow); transition: transform 0.3s ease, box-shadow 0.3s ease; display: flex; flex-direction: column; cursor: pointer; }
+  .news-item:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+  .news-image-container { width: 100%; height: 200px; overflow: hidden; }
+  .news-image { width: 100%; height: 100%; object-fit: cover; }
+  .news-content { padding: 15px; display: flex; flex-direction: column; justify-content: space-between; flex-grow: 1; }
+  .news-content h3 { margin: 0 0 10px; font-size: 1.1em; line-height: 1.4; color: var(--text-color); }
+  .news-content p { font-size: 0.9em; color: var(--secondary-text-color); line-height: 1.5; margin: 0 0 10px; }
+  .news-content a { text-decoration: none; color: var(--primary-color); font-weight: bold; }
+  .news-source { font-size: 0.75em; color: var(--tertiary-text-color); display: flex; justify-content: space-between; align-items: center; }
+  .loader { text-align: center; padding: 50px; font-size: 1.2em; color: var(--secondary-text-color); }
   #debug-log { background-color: #fce8e8; border: 1px solid #d93025; color: #d93025; padding: 15px; border-radius: 8px; margin-bottom: 20px; display: none; }
   .popup-container { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0, 0, 0, 0.7); padding-top: 60px; }
-  .popup-content { background-color: #fff; margin: 5% auto; padding: 20px; border: 1px solid #888; width: 80%; max-width: 600px; border-radius: 10px; position: relative; text-align: center; }
-  .close-btn { color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer; position: absolute; top: 10px; right: 20px; }
-  .close-btn:hover, .close-btn:focus { color: black; text-decoration: none; cursor: pointer; }
-  .popup-content h2 { font-size: 1.5em; color: #1a73e8; }
+  .popup-content { background-color: var(--card-background); margin: 5% auto; padding: 20px; border-radius: 10px; width: 90%; max-width: 700px; position: relative; text-align: center; }
+  .close-btn { color: var(--tertiary-text-color); float: right; font-size: 28px; font-weight: bold; cursor: pointer; position: absolute; top: 10px; right: 20px; }
+  .close-btn:hover, .close-btn:focus { color: var(--primary-color); }
+  .popup-content h2 { font-size: 1.5em; color: var(--primary-color); margin-top: 0; }
   .popup-content img { max-width: 100%; height: auto; border-radius: 8px; margin: 15px 0; }
   .popup-content p { text-align: left; font-size: 1em; line-height: 1.5; }
-  .popup-content a { display: inline-block; background-color: #1a73e8; color: white; padding: 10px 20px; margin-top: 15px; border-radius: 5px; text-decoration: none; font-weight: bold; }
-  .adsense-text { font-size: 0.8em; color: #888; margin-top: 20px; }
+  .popup-content a { display: inline-block; background-color: var(--primary-color); color: var(--card-background); padding: 10px 20px; margin-top: 15px; border-radius: 5px; text-decoration: none; font-weight: bold; }
+  .adsense-text { font-size: 0.8em; color: var(--tertiary-text-color); margin-top: 20px; }
   .hidden { display: none; }
-  .footer { text-align: center; padding: 20px; margin-top: 40px; font-size: 0.9em; color: #777; border-top: 1px solid #e0e0e0; }
-  .footer a { color: #1a73e8; text-decoration: none; margin: 0 10px; cursor: pointer; }
+  .footer { text-align: center; padding: 20px; margin-top: 40px; font-size: 0.9em; color: var(--secondary-text-color); border-top: 1px solid var(--border-color); }
+  .footer a { color: var(--primary-color); text-decoration: none; margin: 0 10px; cursor: pointer; }
   .footer-modal-content { text-align: left; }
   .footer-modal-content h2 { text-align: center; }
-  #cookie-banner { position: fixed; bottom: 0; left: 0; width: 100%; background-color: #fff; padding: 15px; text-align: center; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); z-index: 2000; }
+  #cookie-banner { position: fixed; bottom: 0; left: 0; width: 100%; background-color: var(--card-background); padding: 15px; text-align: center; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); z-index: 2000; }
   #cookie-banner p { margin: 0; display: inline-block; vertical-align: middle; font-size: 0.9em; }
   #cookie-buttons { display: inline-block; vertical-align: middle; margin-left: 20px; }
-  #cookie-accept, #cookie-decline { background-color: #1a73e8; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; margin: 0 5px; font-size: 0.9em; }
-  #cookie-decline { background-color: #ccc; color: #333; }
-  .ad-container { text-align: center; padding: 20px; border: 1px solid #e0e0e0; border-radius: 8px; background-color: #f9f9f9; margin: 20px 0; }
-  .ad-container p { font-weight: bold; color: #333; }
+  #cookie-accept, #cookie-decline { background-color: var(--primary-color); color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; margin: 0 5px; font-size: 0.9em; }
+  #cookie-decline { background-color: var(--border-color); color: var(--secondary-text-color); }
+  .ad-container { text-align: center; padding: 20px; border: 1px solid var(--border-color); border-radius: 8px; background-color: #f9f9f9; margin: 20px 0; }
+  .ad-container p { font-weight: bold; color: var(--text-color); }
+
+  /* Estilos específicos para Material Symbols */
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    margin-right: 8px;
+  }
+  
   @media (max-width: 768px) {
-    .container { padding: 15px; }
+    .container { padding: 10px; }
+    header h1 { font-size: 2em; }
+    .nav-content { flex-direction: column; }
+    .search-container { margin-top: 10px; }
+    .category-nav { justify-content: flex-start; overflow-x: auto; white-space: nowrap; padding-bottom: 10px; }
+    .category-nav a { flex: 0 0 auto; }
     .news-item { flex-direction: column; }
-    .news-image-container { width: 100%; height: 200px; border-right: none; border-bottom: 1px solid #e0e0e0; }
-    .news-content { padding: 10px; }
-    .popup-content { width: 90%; }
+    .popup-content { width: 95%; padding: 15px; }
     #cookie-banner p, #cookie-buttons { display: block; margin-top: 10px; }
   }
 </style>
@@ -74,35 +100,39 @@
 <body>
 <div class="container">
   <header>
-    <h1>Latest News from Selected Media</h1>
-    <nav class="category-nav">
-      <a href="index.html" class="category-link" data-category="all">All</a>
-      <a href="?category=world" class="category-link" data-category="world">World</a>
-      <a href="?category=nation" class="category-link" data-category="nation">Nation</a>
-      <a href="?category=business" class="category-link" data-category="business">Business</a>
-      <a href="?category=technology" class="category-link" data-category="technology">Technology</a>
-      <a href="?category=entertainment" class="category-link" data-category="entertainment">Entertainment</a>
-      <a href="?category=sports" class="category-link" data-category="sports">Sports</a>
-      <a href="?category=science" class="category-link" data-category="science">Science</a>
-      <a href="?category=health" class="category-link" data-category="health">Health</a>
-      <a href="?category=environment" class="category-link" data-category="environment">Environment</a>
-      <a href="?category=politics" class="category-link" data-category="politics">Politics</a>
-      <a href="?category=travel" class="category-link" data-category="travel">Travel</a>
-      <a href="?category=food" class="category-link" data-category="food">Food</a>
-      <a href="?category=automotive" class="category-link" data-category="automotive">Automotive</a>
-      <a href="?category=art" class="category-link" data-category="art">Art</a>
-      <a href="?category=books" class="category-link" data-category="books">Books</a>
-      <a href="?category=movies" class="category-link" data-category="movies">Movies</a>
-      <a href="?category=music" class="category-link" data-category="music">Music</a>
-      <a href="?category=gaming" class="category-link" data-category="gaming">Gaming</a>
-      <a href="?category=education" class="category-link" data-category="education">Education</a>
-      <a href="?category=lifestyle" class="category-link" data-category="lifestyle">Lifestyle</a>
-    </nav>
-    <div class="search-container">
-      <input type="text" id="searchInput" placeholder="Search news...">
-      <button id="searchButton">Search</button>
-    </div>
+    <h1>Global News</h1>
   </header>
+  <div class="nav-bar">
+    <div class="nav-content">
+      <nav class="category-nav">
+        <a href="index.html" class="category-link" data-category="all"><i class="fa-solid fa-house"></i>All</a>
+        <a href="?category=world" class="category-link" data-category="world"><i class="fa-solid fa-earth-americas"></i>World</a>
+        <a href="?category=nation" class="category-link" data-category="nation"><i class="fa-solid fa-flag"></i>Nation</a>
+        <a href="?category=business" class="category-link" data-category="business"><i class="fa-solid fa-briefcase"></i>Business</a>
+        <a href="?category=technology" class="category-link" data-category="technology"><i class="fa-solid fa-microchip"></i>Technology</a>
+        <a href="?category=entertainment" class="category-link" data-category="entertainment"><i class="fa-solid fa-film"></i>Entertainment</a>
+        <a href="?category=sports" class="category-link" data-category="sports"><i class="fa-solid fa-baseball-bat-ball"></i>Sports</a>
+        <a href="?category=science" class="category-link" data-category="science"><i class="fa-solid fa-flask"></i>Science</a>
+        <a href="?category=health" class="category-link" data-category="health"><i class="fa-solid fa-heart-pulse"></i>Health</a>
+        <a href="?category=environment" class="category-link" data-category="environment"><i class="fa-solid fa-tree"></i>Environment</a>
+        <a href="?category=politics" class="category-link" data-category="politics"><i class="fa-solid fa-gavel"></i>Politics</a>
+        <a href="?category=travel" class="category-link" data-category="travel"><i class="fa-solid fa-plane"></i>Travel</a>
+        <a href="?category=food" class="category-link" data-category="food"><i class="fa-solid fa-utensils"></i>Food</a>
+        <a href="?category=automotive" class="category-link" data-category="automotive"><i class="fa-solid fa-car"></i>Automotive</a>
+        <a href="?category=art" class="category-link" data-category="art"><i class="fa-solid fa-palette"></i>Art</a>
+        <a href="?category=books" class="category-link" data-category="books"><i class="fa-solid fa-book"></i>Books</a>
+        <a href="?category=movies" class="category-link" data-category="movies"><i class="fa-solid fa-clapperboard"></i>Movies</a>
+        <a href="?category=music" class="category-link" data-category="music"><i class="fa-solid fa-music"></i>Music</a>
+        <a href="?category=gaming" class="category-link" data-category="gaming"><i class="fa-solid fa-gamepad"></i>Gaming</a>
+        <a href="?category=education" class="category-link" data-category="education"><i class="fa-solid fa-graduation-cap"></i>Education</a>
+        <a href="?category=lifestyle" class="category-link" data-category="lifestyle"><i class="fa-solid fa-mug-hot"></i>Lifestyle</a>
+      </nav>
+      <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Search news...">
+        <button id="searchButton"><i class="fa-solid fa-magnifying-glass"></i></button>
+      </div>
+    </div>
+  </div>
   <div id="debug-log">
     <h2>Load Errors:</h2>
     <ul id="error-list"></ul>
