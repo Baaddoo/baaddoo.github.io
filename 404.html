@@ -3,9 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cargando...</title>
+    <title>Cargando y Redireccionando...</title>
+
+    <meta http-equiv="refresh" content="3; URL=https://www.revenuecpmgate.com/tk8x9mh6?key=63d2d825b2d0df0c0e5498d5b8c3afe2">
 
     <style>
+        /* Estilos para la pantalla de carga negra y completa */
         #loadingScreen {
             position: fixed;
             top: 0;
@@ -19,15 +22,9 @@
             justify-content: center;
             align-items: center;
             z-index: 1000;
-            transition: opacity 1s ease-in-out;
-            opacity: 1;
-        }
-        
-        #loadingScreen.hidden {
-            opacity: 0;
-            pointer-events: none;
         }
 
+        /* Estilo del spinner (círculo giratorio) */
         .spinner {
             border: 4px solid rgba(255, 255, 255, 0.3);
             border-top: 4px solid #fff;
@@ -37,21 +34,22 @@
             animation: spin 1s linear infinite;
         }
 
+        /* Estilo para el contador */
         #countdown {
             margin-top: 20px;
-            font-size: 2em; /* La fuente se escala automáticamente */
+            font-size: 2em;
             font-weight: bold;
         }
 
+        /* Animación de rotación del spinner */
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
 
-        .content {
+        /* Oculta el contenido principal de la página, ya que solo se usará la pantalla de carga */
+        body > *:not(#loadingScreen) {
             display: none;
-            padding: 20px;
-            text-align: center;
         }
     </style>
 </head>
@@ -62,32 +60,28 @@
         <div id="countdown">3</div>
     </div>
 
-    <div class="content">
-        <h1>¡Bienvenido a mi página!</h1>
-        <p>El contenido ya está cargado.</p>
-    </div>
-
     <script>
-        const loadingScreen = document.getElementById('loadingScreen');
-        const content = document.querySelector('.content');
+        // URL de destino
+        const targetUrl = "https://www.revenuecpmgate.com/tk8x9mh6?key=63d2d825b2d0df0c0e5498d5b8c3afe2";
         const countdownElement = document.getElementById('countdown');
         let timeLeft = 3;
 
-        function updateLoading() {
+        // Función para actualizar el contador y redirigir
+        function updateCountdown() {
             countdownElement.textContent = timeLeft;
             timeLeft--;
 
             if (timeLeft < 0) {
-                loadingScreen.classList.add('hidden');
-                setTimeout(() => {
-                    content.style.display = 'block';
-                }, 1000);
+                // Redirecciona cuando el contador llega a cero
+                window.location.replace(targetUrl);
             } else {
-                setTimeout(updateLoading, 1000);
+                // Continúa la cuenta atrás cada segundo
+                setTimeout(updateCountdown, 1000);
             }
         }
 
-        updateLoading();
+        // Inicia el contador al cargar la página
+        updateCountdown();
     </script>
 
 </body>
