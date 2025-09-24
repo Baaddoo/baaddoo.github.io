@@ -64,7 +64,7 @@
   .popup-content img { max-width: 100%; height: auto; border-radius: 8px; margin: 15px 0; }
   .popup-content p { text-align: left; font-size: 1em; line-height: 1.5; }
   .popup-content a { display: inline-block; background-color: var(--primary-color); color: var(--card-background); padding: 10px 20px; margin-top: 15px; border-radius: 5px; text-decoration: none; font-weight: bold; }
-  .adsense-text { font-size: 0.8em; color: var(--tertiary-text-color); margin-top: 20px; }
+  .adsense-text { font-size: 0.8em; color: var(--tertiary-text-color); margin-top: 20px; text-align: center; }
   .hidden { display: none; }
   .footer { text-align: center; padding: 20px; margin-top: 40px; font-size: 0.9em; color: var(--secondary-text-color); border-top: 1px solid var(--border-color); }
   .footer a { color: var(--primary-color); text-decoration: none; margin: 0 10px; cursor: pointer; }
@@ -76,8 +76,7 @@
   #cookie-accept, #cookie-decline { background-color: var(--primary-color); color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; margin: 0 5px; font-size: 0.9em; }
   #cookie-decline { background-color: var(--border-color); color: var(--secondary-text-color); }
   .ad-container { text-align: center; padding: 20px; border: 1px solid var(--border-color); border-radius: 8px; background-color: #f9f9f9; margin: 20px 0; }
-  .ad-container p { font-weight: bold; color: var(--text-color); }
-
+  .ad-container p { font-weight: bold; color: var(--text-color); font-size: 0.9em; text-align: center; }
   /* Estilos específicos para Material Symbols */
   .material-symbols-outlined {
     font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
@@ -247,11 +246,9 @@
         'en': [
             'http://feeds.bbci.co.uk/news/world/rss.xml',
             'https://www.cbsnews.com/latest/rss/main',
-            // feeds eliminados debido a errores 429
-            // 'https://rss.cnn.com/rss/cnn_topstories.rss',
-            // 'https://www.reuters.com/rssfeed/topNews',
-            // 'https://www.theguardian.com/world/rss',
-            // 'https://www.nytimes.com/services/xml/rss/nyt/HomePage.xml'
+            'https://www.reuters.com/rssfeed/topNews',
+            'https://www.theguardian.com/world/rss',
+            'https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml'
         ],
         'es': [
             'https://www.americaeconomia.com/rss.xml',
@@ -262,9 +259,37 @@
             'https://www.larepublica.co/rss',
             'https://www.el-nacional.com/feed/',
             'https://www.elcomercio.com/feed/',
-            'https://www.larepublica.ec/feed/',
-            // feed eliminado debido a error 429
-            // 'https://regeneracion.mx/feed/',
+            'https://www.larepublica.ec/feed/'
+        ],
+        'de': [
+            'https://www.spiegel.de/international/index.rss',
+            'https://rss.zeit.de/index',
+            'https://www.thelocal.de/feeds/rss-feed-de.xml'
+        ],
+        'fr': [
+            'https://www.france24.com/fr/rss',
+            'https://www.lemonde.fr/rss/en/headlines.xml',
+            'https://www.lefigaro.fr/rss/figaro_a-la-une.xml'
+        ],
+        'pt': [
+            'https://jornaleconomico.sapo.pt/feed/',
+            'https://feeds.feedburner.com/expresso/atualidade',
+            'https://www.correiodamanha.pt/rss'
+        ],
+        'it': [
+            'https://www.adnkronos.com/rss/prima_pagina.xml',
+            'https://www.ansa.it/sito/ansait_rss.xml',
+            'https://www.repubblica.it/rss/homepage/rss2.0.xml'
+        ],
+        'jp': [
+            'https://www.japantimes.co.jp/feed/',
+            'https://www.asahi.com/rss/asahi/news/tko/ent.rss',
+            'https://www.japantoday.com/feed/atom'
+        ],
+        'cn': [
+            'https://www.chinadaily.com.cn/rss/china_rss.xml',
+            'https://www.globaltimes.cn/rss/feed.xml',
+            'https://www.ecns.cn/rss/rss.xml'
         ]
     };
     
@@ -285,16 +310,30 @@
     };
 
     const updateSchema = (item) => {
+      const imageUrl = (item.enclosure && item.enclosure.link) || (item.thumbnail && item.thumbnail.url) || null;
       const schemaData = {
-        "@context": "http://schema.org",
+        "@context": "https://schema.org",
         "@type": "NewsArticle",
-        "mainEntityOfPage": { "@type": "WebPage", "@id": window.location.href },
+        "mainEntityOfPage": { 
+          "@type": "WebPage", 
+          "@id": item.link 
+        },
         "headline": item.title,
-        "image": [ (item.enclosure && item.enclosure.link) || item.thumbnail || "" ],
+        "image": [ imageUrl ],
         "datePublished": item.pubDate,
         "dateModified": item.pubDate,
-        "author": { "@type": "Organization", "name": item.author || "Unknown" },
-        "publisher": { "@type": "Organization", "name": item.feed.title || "News Aggregator", "logo": { "@type": "ImageObject", "url": "https://www.example.com/logo.png" } },
+        "author": { 
+          "@type": "Organization", 
+          "name": item.author || item.feed.title || "Unknown" 
+        },
+        "publisher": { 
+          "@type": "Organization", 
+          "name": item.feed.title || "News Aggregator", 
+          "logo": { 
+            "@type": "ImageObject", 
+            "url": "https://www.example.com/logo.png" 
+          } 
+        },
         "description": cleanDescription(item.description || item.content)
       };
       schemaMarkup.textContent = JSON.stringify(schemaData, null, 2);
@@ -303,7 +342,7 @@
     const showNewsModal = (item) => {
       const title = item.title;
       const description = cleanDescription(item.description || item.content);
-      const imageUrl = (item.enclosure && item.enclosure.link) || item.thumbnail;
+      const imageUrl = (item.enclosure && item.enclosure.link) || (item.thumbnail && item.thumbnail.url);
       const link = item.link;
       popupTitle.textContent = title;
       popupDescription.textContent = description;
@@ -328,6 +367,7 @@
       popupContainer.style.display = 'none';
       legalModalContainer.style.display = 'none';
       history.pushState({}, '', window.location.pathname);
+      schemaMarkup.textContent = ''; // Clear schema on close
     };
 
     newsCloseBtn.onclick = closeModal;
@@ -440,39 +480,56 @@
       errorList.innerHTML = '';
       debugLog.style.display = 'none';
       loader.style.display = 'block';
-      let completedRequests = 0;
-      const totalRequests = feeds.length;
       
-      const promises = feeds.map(url => {
-        const proxyURL = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(url)}`;
-        return fetch(proxyURL)
-          .then(response => {
-            if (!response.ok) {
-              return Promise.reject(new Error(`HTTP Error: ${response.status} at ${url}`));
-            }
-            return response.json();
-          })
-          .then(data => {
-            if (data && data.status === 'ok' && data.items) {
-              const feedSource = data.feed.title || new URL(url).hostname;
-              const itemsWithSource = data.items.map(item => ({...item, feed: { title: feedSource }}));
-              allNewsItems.push(...itemsWithSource);
-            }
-          })
-          .catch(error => {
-            debugLog.style.display = 'block';
-            const errorLi = document.createElement('li');
-            errorLi.textContent = error.message;
-            errorList.appendChild(errorLi);
-            console.error(`Error processing feed ${url}:`, error);
+      const languages = ['en', 'es', 'de', 'fr', 'pt', 'it', 'jp', 'cn'];
+      const feedPromises = [];
+      
+      // Create promises for each feed, grouped by language for prioritization
+      languages.forEach(lang => {
+        if (staticRssFeeds[lang]) {
+          staticRssFeeds[lang].forEach(url => {
+            feedPromises.push(
+              fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(url)}`)
+                .then(response => {
+                  if (!response.ok) {
+                    throw new Error(`HTTP Error: ${response.status} at ${url}`);
+                  }
+                  return response.json();
+                })
+                .then(data => {
+                  if (data && data.status === 'ok' && data.items) {
+                    const feedSource = data.feed.title || new URL(url).hostname;
+                    return data.items.map(item => ({ ...item, feed: { title: feedSource } }));
+                  }
+                  return [];
+                })
+                .catch(error => {
+                  debugLog.style.display = 'block';
+                  const errorLi = document.createElement('li');
+                  errorLi.textContent = error.message;
+                  errorList.appendChild(errorLi);
+                  console.error(`Error processing feed ${url}:`, error);
+                  return [];
+                })
+            );
           });
+        }
       });
-
-      Promise.allSettled(promises).then(() => {
-        allNewsItems.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
-        renderNews(allNewsItems);
-        loader.style.display = 'none';
-      });
+    
+      Promise.all(feedPromises)
+        .then(results => {
+          results.forEach(items => {
+            allNewsItems.push(...items);
+          });
+    
+          allNewsItems.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+          renderNews(allNewsItems);
+          loader.style.display = 'none';
+        })
+        .catch(error => {
+          console.error("Error fetching all feeds:", error);
+          loader.style.display = 'none';
+        });
     };
 
     if (!hasAcceptedCookies && !hasDeclinedCookies) {
