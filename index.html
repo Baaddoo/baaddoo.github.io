@@ -203,27 +203,19 @@
     const hasDeclinedCookies = localStorage.getItem('cookiesAccepted') === 'false';
     const GOOGLE_NEWS_BASE_URL = 'https://news.google.com/rss';
     const GOOGLE_NEWS_COUNTRIES = {
-      'bolivia_es': { hl: 'es-419', gl: 'bo', ceid: 'bo:es' },
-      'chile_es': { hl: 'es-419', gl: 'cl', ceid: 'cl:es' },
-      'costarica_es': { hl: 'es-419', gl: 'cr', ceid: 'cr:es' },
-      'cuba_es': { hl: 'es-419', gl: 'cu', ceid: 'cu:es' },
-      'ecuador_es': { hl: 'es-419', gl: 'ec', ceid: 'ec:es' },
-      'spain_es': { hl: 'es-419', gl: 'es', ceid: 'es:es' },
-      'usa_es': { hl: 'es-419', gl: 'us', ceid: 'us:es' },
-      'mexico_es': { hl: 'es-419', gl: 'mx', ceid: 'mx:es' },
-      'nicaragua_es': { hl: 'es-419', gl: 'ni', ceid: 'ni:es' },
-      'paraguay_es': { hl: 'es-419', gl: 'py', ceid: 'py:es' },
-      'peru_es': { hl: 'es-419', gl: 'pe', ceid: 'pe:es' },
-      'uruguay_es': { hl: 'es-419', gl: 'uy', ceid: 'uy:es' },
-      'venezuela_es': { hl: 'es-419', gl: 've', ceid: 've:es' },
-      'uk_en': { hl: 'en-gb', gl: 'uk', ceid: 'gb:en' },
+      // Priorizando países de habla inglesa
       'usa_en': { hl: 'en-us', gl: 'us', ceid: 'us:en' },
+      'uk_en': { hl: 'en-gb', gl: 'uk', ceid: 'gb:en' },
       'australia_en': { hl: 'en-au', gl: 'au', ceid: 'au:en' },
       'canada_en': { hl: 'en-ca', gl: 'ca', ceid: 'ca:en' },
       'india_en': { hl: 'en-in', gl: 'in', ceid: 'in:en' },
       'nigeria_en': { hl: 'en-ng', gl: 'ng', ceid: 'ng:en' },
       'southafrica_en': { hl: 'en-za', gl: 'za', ceid: 'za:en' },
+      // Otros idiomas
       'brazil_pt': { hl: 'pt-br', gl: 'br', ceid: 'br:pt' },
+      'bolivia_es': { hl: 'es-419', gl: 'bo', ceid: 'bo:es' },
+      'ecuador_es': { hl: 'es-419', gl: 'ec', ceid: 'ec:es' },
+      'uruguay_es': { hl: 'es-419', gl: 'uy', ceid: 'uy:es' },
       'germany_de': { hl: 'de-de', gl: 'de', ceid: 'de:de' },
       'france_fr': { hl: 'fr-fr', gl: 'fr', ceid: 'fr:fr' },
       'japan_ja': { hl: 'ja-jp', gl: 'jp', ceid: 'jp:ja' },
@@ -332,6 +324,12 @@
       const slug = urlParams.get('slug');
       if (!slug) { closeModal(); }
     };
+    const extractImageFromDescription = (description) => {
+      const parser = new DOMParser();
+      const htmlDoc = parser.parseFromString(description, 'text/html');
+      const img = htmlDoc.querySelector('img');
+      return img ? img.src : null;
+    };
     const fetchAndRenderNews = (feeds) => {
       newsList.innerHTML = '';
       errorList.innerHTML = '';
@@ -362,7 +360,10 @@
                 }
                 const li = document.createElement('li');
                 li.classList.add('news-item');
-                const imageURL = (item.enclosure && item.enclosure.link) || item.thumbnail;
+                let imageUrl = (item.enclosure && item.enclosure.link) || item.thumbnail;
+                if (!imageUrl && item.description) {
+                  imageUrl = extractImageFromDescription(item.description);
+                }
                 const newsImageContainer = document.createElement('div');
                 newsImageContainer.classList.add('news-image-container');
                 const newsContentDiv = document.createElement('div');
@@ -375,10 +376,10 @@
                   <p>${shortDescription}</p>
                   <div class="news-source">Source: ${feedSource} | Published: ${new Date(item.pubDate).toLocaleDateString()}</div>
                 `;
-                if (imageURL) {
+                if (imageUrl) {
                   const img = new Image();
                   img.classList.add('news-image');
-                  img.src = imageURL;
+                  img.src = imageUrl;
                   img.alt = item.title;
                   img.onload = () => {
                     newsImageContainer.appendChild(img);
@@ -395,7 +396,6 @@
                   newsList.appendChild(li);
                 }
                 li.addEventListener('click', (e) => { 
-                  // Evita que el clic en el enlace del título abra el modal
                   if (e.target.tagName.toLowerCase() !== 'a' && e.target.closest('a') === null) {
                       showNewsModal(item); 
                   }
@@ -423,24 +423,18 @@
     cookieDeclineBtn.onclick = () => { localStorage.setItem('cookiesAccepted', 'false'); cookieBanner.style.display = 'none'; };
     const getFeedsByCategory = (category) => {
         let feedsToLoad = [];
+        const googleNewsFeeds = [];
+        for (const countryKey in GOOGLE_NEWS_COUNTRIES) {
+            if (GOOGLE_NEWS_COUNTRIES.hasOwnProperty(countryKey)) {
+                const params = GOOGLE_NEWS_COUNTRIES[countryKey];
+                const url = `${GOOGLE_NEWS_BASE_URL}/headlines/section/topic/${category}?hl=${params.hl}&gl=${params.gl}&ceid=${params.ceid}`;
+                googleNewsFeeds.push(url);
+            }
+        }
         if (category === 'all') {
-            const allGoogleNewsFeeds = [];
-            for (const countryKey in GOOGLE_NEWS_COUNTRIES) {
-                if (GOOGLE_NEWS_COUNTRIES.hasOwnProperty(countryKey)) {
-                    const params = GOOGLE_NEWS_COUNTRIES[countryKey];
-                    const url = `${GOOGLE_NEWS_BASE_URL}?hl=${params.hl}&gl=${params.gl}&ceid=${params.ceid}`;
-                    allGoogleNewsFeeds.push(url);
-                }
-            }
-            feedsToLoad = staticRssFeeds.concat(allGoogleNewsFeeds);
+            feedsToLoad = staticRssFeeds.concat(googleNewsFeeds.map(url => url.replace('/headlines/section/topic/all', '')));
         } else {
-            for (const countryKey in GOOGLE_NEWS_COUNTRIES) {
-                if (GOOGLE_NEWS_COUNTRIES.hasOwnProperty(countryKey)) {
-                    const params = GOOGLE_NEWS_COUNTRIES[countryKey];
-                    const categoryUrl = `${GOOGLE_NEWS_BASE_URL}/headlines/section/topic/${category}?hl=${params.hl}&gl=${params.gl}&ceid=${params.ceid}`;
-                    feedsToLoad.push(categoryUrl);
-                }
-            }
+            feedsToLoad = googleNewsFeeds;
         }
         return feedsToLoad;
     };
@@ -449,14 +443,10 @@
             e.preventDefault();
             const category = e.target.getAttribute('data-category');
             
-            // Highlight active link
             categoryLinks.forEach(l => l.classList.remove('active'));
             e.target.classList.add('active');
             
-            // Change URL without reloading
             history.pushState({ category: category }, '', `?category=${category}`);
-
-            // Fetch and render news for the selected category
             fetchAndRenderNews(getFeedsByCategory(category));
         });
     });
