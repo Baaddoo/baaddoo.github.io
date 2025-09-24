@@ -3,56 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cargar iframe automáticamente</title>
+    <title>Cargando...</title>
+
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 20px;
+        #loadingScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 1s ease-in-out;
+            opacity: 1;
         }
-        #iframe-container {
-            border: 2px solid #ccc;
-            padding: 10px;
+        
+        #loadingScreen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #fff;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+
+        #countdown {
             margin-top: 20px;
+            font-size: 2em; /* La fuente se escala automáticamente */
+            font-weight: bold;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .content {
+            display: none;
+            padding: 20px;
+            text-align: center;
         }
     </style>
 </head>
 <body>
 
-    <h1>Iframe cargado automáticamente</h1>
-    
-    <p>El iframe a continuación se ha creado dinámicamente con JavaScript al cargar esta página.</p>
-    
-    <div id="iframe-container">
-        <p>Cargando iframe...</p>
+    <div id="loadingScreen">
+        <div class="spinner"></div>
+        <div id="countdown">3</div>
+    </div>
+
+    <div class="content">
+        <h1>¡Bienvenido a mi página!</h1>
+        <p>El contenido ya está cargado.</p>
     </div>
 
     <script>
-        // La función se ejecuta cuando el DOM (Document Object Model) ha sido completamente cargado
-        document.addEventListener('DOMContentLoaded', function() {
-            // El contenedor donde se agregará el iframe
-            const container = document.getElementById('iframe-container');
-            
-            // Crea un nuevo elemento iframe
-            const iframe = document.createElement('iframe');
+        const loadingScreen = document.getElementById('loadingScreen');
+        const content = document.querySelector('.content');
+        const countdownElement = document.getElementById('countdown');
+        let timeLeft = 3;
 
-            // Establece la URL del sitio web que quieres cargar
-            iframe.src = 'https://es.wikipedia.org/wiki/Ejemplo'; 
-            
-            // Configura atributos para el iframe
-            iframe.width = '100%';
-            iframe.height = '400px';
-            iframe.style.border = '1px solid #ddd';
-            iframe.style.marginTop = '10px';
-            iframe.setAttribute('title', 'Contenido de Wikipedia');
+        function updateLoading() {
+            countdownElement.textContent = timeLeft;
+            timeLeft--;
 
-            // Agrega el iframe al contenedor en el DOM
-            container.innerHTML = ''; // Limpia el contenido de "Cargando..."
-            container.appendChild(iframe);
+            if (timeLeft < 0) {
+                loadingScreen.classList.add('hidden');
+                setTimeout(() => {
+                    content.style.display = 'block';
+                }, 1000);
+            } else {
+                setTimeout(updateLoading, 1000);
+            }
+        }
 
-            // ⚠️ Recordatorio: La Política del Mismo Origen impide acceder al código fuente
-            // de sitios externos como Wikipedia desde tu JavaScript.
-        });
+        updateLoading();
     </script>
 
 </body>
