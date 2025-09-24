@@ -245,10 +245,7 @@
     const staticRssFeeds = {
         'en': [
             'http://feeds.bbci.co.uk/news/world/rss.xml',
-            'https://www.cbsnews.com/latest/rss/main',
-            'https://www.reuters.com/rssfeed/topNews',
-            'https://www.theguardian.com/world/rss',
-            'https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml'
+            'https://www.cbsnews.com/latest/rss/main'
         ],
         'es': [
             'https://www.americaeconomia.com/rss.xml',
@@ -260,36 +257,6 @@
             'https://www.el-nacional.com/feed/',
             'https://www.elcomercio.com/feed/',
             'https://www.larepublica.ec/feed/'
-        ],
-        'de': [
-            'https://www.spiegel.de/international/index.rss',
-            'https://rss.zeit.de/index',
-            'https://www.thelocal.de/feeds/rss-feed-de.xml'
-        ],
-        'fr': [
-            'https://www.france24.com/fr/rss',
-            'https://www.lemonde.fr/rss/en/headlines.xml',
-            'https://www.lefigaro.fr/rss/figaro_a-la-une.xml'
-        ],
-        'pt': [
-            'https://jornaleconomico.sapo.pt/feed/',
-            'https://feeds.feedburner.com/expresso/atualidade',
-            'https://www.correiodamanha.pt/rss'
-        ],
-        'it': [
-            'https://www.adnkronos.com/rss/prima_pagina.xml',
-            'https://www.ansa.it/sito/ansait_rss.xml',
-            'https://www.repubblica.it/rss/homepage/rss2.0.xml'
-        ],
-        'jp': [
-            'https://www.japantimes.co.jp/feed/',
-            'https://www.asahi.com/rss/asahi/news/tko/ent.rss',
-            'https://www.japantoday.com/feed/atom'
-        ],
-        'cn': [
-            'https://www.chinadaily.com.cn/rss/china_rss.xml',
-            'https://www.globaltimes.cn/rss/feed.xml',
-            'https://www.ecns.cn/rss/rss.xml'
         ]
     };
     
@@ -481,10 +448,9 @@
       debugLog.style.display = 'none';
       loader.style.display = 'block';
       
-      const languages = ['en', 'es', 'de', 'fr', 'pt', 'it', 'jp', 'cn'];
+      const languages = ['en', 'es'];
       const feedPromises = [];
       
-      // Create promises for each feed, grouped by language for prioritization
       languages.forEach(lang => {
         if (staticRssFeeds[lang]) {
           staticRssFeeds[lang].forEach(url => {
@@ -541,7 +507,6 @@
 
     const getFeedsByCategory = (category) => {
         let feedsToLoad = [];
-        // Prioriza feeds en inglés, luego en español
         feedsToLoad.push(...staticRssFeeds.en);
         feedsToLoad.push(...staticRssFeeds.es);
         return feedsToLoad;
